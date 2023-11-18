@@ -1,8 +1,8 @@
 .App {
   margin: 0px;
-  background-color: rgb(69, 69, 78);
+  background-color: var(--color-secondary-light);
 }
 
 .content {
-  margin-top: 54px;
+  margin-top: 50px;
 }

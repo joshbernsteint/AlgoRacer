@@ -1,6 +1,6 @@
 .nav {
-    background-color: var(--color-navbar);
-    height: 54px;
+    /* background-color: var(--color-navbar-light); */
+    height: 50px;
     width: 100%;
     position: fixed;
     top: 0;
@@ -14,7 +14,8 @@
 
 .nav_btn {
     background: var(--color-navbar-btn);
-    color: var(--color-btn-light);
+    color: var(--color-main);
+    text-decoration: none;
     border: 1px solid var(--color-btn-border);
     padding: 5px 10px;
     border-radius: 5px;
@@ -33,6 +34,11 @@
     transition: all 0.2s ease-in-out;
 }
 
+.nav_btn:active {
+    background: var(--color-btn-dark-press);
+    border: 1px solid var(--color-btn-border);
+}
+
 .nav_links {
     display: flex;
     text-decoration: none;
@@ -43,6 +49,17 @@
 .nav_title {
     font-size: 1.5rem;
     font-weight: bold;
-    color: var(--color-main-light);
+    color: var(--color-btn-dark);
+    text-shadow: 1px 1px 2px var(--color-main-dark);
     text-decoration: none;
+}
+
+.nav_title:hover {
+    color: var(--color-main-dark);
+    text-shadow: 1px 1px 2px var(--color-main);
+    transition: all 0.2s ease-in-out;
+}
+
+.nav_title:active {
+    color: var(--color-main);
 }
