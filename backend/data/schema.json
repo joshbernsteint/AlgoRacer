@@ -1,0 +1,56 @@
+{
+    "users": {
+        "email": "String",
+        "password": "String",
+        "Display Name": "String",
+        "stats": {
+            "Beginner": {
+                "high_score": "Whole Number",
+                "high_score_time": "Integer",
+                "average_score": "Integer",
+                "games_played": "Whole Number",
+                "time_spent": "Integer"
+            },
+            "Normal": {
+                "high_score": "Whole Number",
+                "high_score_time": "Integer",
+                "average_score": "Integer",
+                "games_played": "Whole Number",
+                "time_spent": "Integer"
+            },
+            "Insane": {
+                "high_score": "Whole Number",
+                "high_score_time": "Integer",
+                "average_score": "Integer",
+                "games_played": "Whole Number",
+                "time_spent": "Integer"
+            }
+        }
+    },
+    "scores": {
+        "Beginner": [
+            {
+                "_id": "String",
+                "time_taken": "Integer",
+                "score": "Whole Number",
+                "timestamp": "UNIX timestamp"
+            }
+        ],
+        "Normal": [
+            {
+                "_id": "String",
+                "time_taken": "Integer",
+                "score": "Whole Number",
+                "timestamp": "UNIX timestamp"
+            }
+        ],
+        "Insane": [
+            {
+                "_id": "String",
+                "time_taken": "Integer",
+                "score": "Whole Number",
+                "timestamp": "UNIX timestamp"
+            }
+        ]
+    }
+}
