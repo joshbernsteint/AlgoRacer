@@ -6,7 +6,7 @@ const { checkEmailAndTrim, checkAndTrim, validateMongoId, toObjectId, checkNumbe
  * Error Messages
  */
 const userNotFound = "User could not be found";
-const insertError = "User could not be created"
+const insertError = "User could not be created";
 
 
 async function createUser(email, password, displayName){
@@ -59,8 +59,8 @@ async function changeDisplayName(userId, newName){
 async function updateStats(userId, difficulty, time_taken, got_score){
     const id = validateMongoId(userId);
     const diff = checkAndTrim(difficulty);
-    const time = checkNumber(time_taken);
-    const score = checkNumber(got_score);
+    const time = checkNumber(time_taken, "time_taken");
+    const score = checkNumber(got_score, "got_score");
 
     const user = await getUser(id);
     const newStats = user.stats[diff];
@@ -76,7 +76,6 @@ async function updateStats(userId, difficulty, time_taken, got_score){
     newStats.average_score = (totalScores + score) / (newStats.games_played + 1);
     newStats.games_played++;
 
-    //TODO: Update DB
     const userCollection = await collection.users();
     const updated = await userCollection.findOneAndUpdate({_id: toObjectId(id)}, {$set: {[`stats.${diff}`]: newStats}}, {returnDocument: 'after'});
     if(!updated) throw "displayName could not be updated";

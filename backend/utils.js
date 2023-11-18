@@ -31,10 +31,17 @@ function toObjectId(str_id){
     return new mongo.ObjectId(id);
 }
 
+/**
+ * Checks to see if the passed in value is a number and exists
+ * @param {*} num Number to be checked
+ * @param {*} label Name of the variable (for error message purposes)
+ * @returns The number
+ */
 function checkNumber(num, label){
     if(typeof num !== "number" || isNaN(num)) throw `${label} must exist and be a number`;
     return num;
 }
+
 
 module.exports = {
     checkAndTrim: checkAndTrim,
