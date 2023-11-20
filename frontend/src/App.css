@@ -6,3 +6,47 @@
 .content {
   margin-top: 50px;
 }
+
+.game_piece {
+  width: 50px;
+  border-radius: 5px;
+  background-color: var(--color-btn);
+  border: 1px solid var(--color-btn-border);
+  margin: 10px;
+  display: inline-block;
+  cursor: pointer;
+  align-items: center;
+  text-align: center;
+}
+
+.game_piece:hover {
+  background-color: var(--color-btn-dark);
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.game_piece_done {
+  width: 50px;
+  border-radius: 5px;
+  background-color: rgb(4, 196, 4);
+  border: 1px solid var(--color-btn-border);
+  margin: 10px;
+  display: inline-block;
+  align-items: center;
+  text-align: center;
+}
+
+.game_box {
+  width: 60px;
+  background-color: var(--color-main);
+  color: var(--color-secondary);
+  border-radius: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.game_box:hover {
+  background-color: var(--color-main-dark);
+}
