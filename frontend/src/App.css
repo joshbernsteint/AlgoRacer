@@ -22,7 +22,7 @@
 .game_piece:hover {
   background-color: var(--color-btn-dark);
   box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
-  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: background-color 0.5s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .game_piece_done {
@@ -34,6 +34,13 @@
   display: inline-block;
   align-items: center;
   text-align: center;
+  transition: all 0.5s ease-in-out;
+}
+
+.game_piece_done:hover {
+  background-color: rgb(4, 196, 4);
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .game_box {
@@ -49,4 +56,12 @@
 
 .game_box:hover {
   background-color: var(--color-main-dark);
+}
+
+.game_board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
 }

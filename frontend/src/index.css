@@ -13,6 +13,10 @@
   --color-navbar: #2f5755;
   --color-navbar-btn: #54c6be;
   --color-navbar-light: #dbdbdb;
+  --color-btn-pressed: #38857f;
+  --color-btn-back: #c65454;
+  --color-btn-back-pressed: #8f3b3b;
+  --color-btn-back-dark: rgb(139, 60, 60);
 }
 
 body {

@@ -1,30 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { SortableContext, useSortable, horizontalListSortingStrategy, sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable';
-import { CSS } from "@dnd-kit/utilities";
+import { SortableContext, horizontalListSortingStrategy, sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable';
 
-function SortableItem(props) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-  } = useSortable({ id: props.id });
+import SortableItem from './SortableItem';
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
-  return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className='game_piece'>
-      {props.value}
-    </div>
-  );
-}
-
-export default function GameBoard(props) {
+export default function CompeteBoard(props) {
+  /*
+  props: {
+    boardSize: int
+    difficulty: string
+    boardType: string
+    randomList: list
+    sortedLists: list of lists
+  }
+  */
   const [gamePieces, setGamePieces] = useState([]);
   const [sortedLists, setSortedLists] = useState([]);
   const [indexToSolve, setIndexToSolve] = useState(0);
@@ -114,7 +103,6 @@ export default function GameBoard(props) {
     setUpBoard();
   }, [setUpBoard]);
 
-
   useEffect(() => {
     let checkLst = currentList;
     let toBeChecked = [];
@@ -161,23 +149,26 @@ export default function GameBoard(props) {
 
   function handleDragEnd(event) {
     const { active, over } = event;
+    if (!over || !active) {
+      return;
+    } else {
+      if (active.id !== over.id) {
+        setCurrentListObj((currentListObj) => {
+          let oldIndex = 0;
+          let newIndex = 0;
 
-    if (active.id !== over.id) {
-      setCurrentListObj((currentListObj) => {
-        let oldIndex = 0;
-        let newIndex = 0;
-
-        for (let i = 0; i < currentListObj.length; i++) {
-          if (currentListObj[i].id === active.id) {
-            oldIndex = i;
-          } else if (currentListObj[i].id === over.id) {
-            newIndex = i;
+          for (let i = 0; i < currentListObj.length; i++) {
+            if (currentListObj[i].id === active.id) {
+              oldIndex = i;
+            } else if (currentListObj[i].id === over.id) {
+              newIndex = i;
+            }
           }
-        }
-        // console.log("oldIndex: ", oldIndex);
-        // console.log("newIndex: ", newIndex);
-        return arrayMove(currentListObj, oldIndex, newIndex);
-      });
+          // console.log("oldIndex: ", oldIndex);
+          // console.log("newIndex: ", newIndex);
+          return arrayMove(currentListObj, oldIndex, newIndex);
+        });
+      }
     }
   }
 
@@ -191,22 +182,24 @@ export default function GameBoard(props) {
   }
 
   return (
-    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-      <div className="score">
-        Boards Solved: {boardsSolved}
-      </div>
-      <div style={boardStyle}>
-        {solvedBoard && solvedBoard.length !== 0 ? solvedBoard.map((value, index) => {
-          return (
-            formatSolvedBoard(value, index).map((val) => {
-              return val;
-            })
-          )
-        }) : null}
-        <SortableContext items={mergeList} collisionDetection={closestCenter} strategy={horizontalListSortingStrategy}>
-          {currentListObj && currentListObj.length !== 0 ? currentListObj.map((value, index) => <SortableItem key={value.id} id={value.id} value={value.value} />) : null}
-        </SortableContext>
-      </div>
-    </DndContext>
+    <div className='game_board'>
+      <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+        <div className="score">
+          Boards Solved: {boardsSolved}
+        </div>
+        <div style={boardStyle}>
+          {solvedBoard && solvedBoard.length !== 0 ? solvedBoard.map((value, index) => {
+            return (
+              formatSolvedBoard(value, index).map((val) => {
+                return val;
+              })
+            )
+          }) : null}
+          <SortableContext items={mergeList} collisionDetection={closestCenter} strategy={horizontalListSortingStrategy}>
+            {currentListObj && currentListObj.length !== 0 ? currentListObj.map((value, index) => <SortableItem key={value.id} id={value.id} value={value.value} />) : null}
+          </SortableContext>
+        </div>
+      </DndContext>
+    </div>
   )
 }
