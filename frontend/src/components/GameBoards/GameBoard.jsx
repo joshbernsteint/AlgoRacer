@@ -5,7 +5,6 @@ import { SortableContext, horizontalListSortingStrategy, sortableKeyboardCoordin
 import SortableItem from './SortableItem';
 
 export default function GameBoard(props) {
-  const [gamePieces, setGamePieces] = useState([]);
   const [sortedLists, setSortedLists] = useState([]);
   const [indexToSolve, setIndexToSolve] = useState(0);
   const [randomList, setRandomList] = useState([]);

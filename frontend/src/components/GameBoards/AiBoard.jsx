@@ -5,7 +5,7 @@ import { SortableContext, horizontalListSortingStrategy, sortableKeyboardCoordin
 import SortableItem from './SortableItem';
 import NonSortableItem from './NonSortableItem';
 
-export default function CompeteBoard(props) {
+export default function AiBoard(props) {
   /*
   props: {
     boardSize: int
@@ -27,6 +27,10 @@ export default function CompeteBoard(props) {
   const [currentList, setCurrentList] = useState([]);
   const [currentListObj, setCurrentListObj] = useState([]);
   const [mergeList, setMergeList] = useState([]);
+
+  // const [aiInterval, setAiInterval] = useState(props.aiInterval.current);
+  const intervalIndex = props.intervalIndex;
+  // const [started, setStarted] = useState(false);
 
   const [boardStyle, setBoardStyle] = useState({
     width: (props.boardSize * 80 + (props.boardSize - 1) * 5) + 'px',
@@ -50,7 +54,7 @@ export default function CompeteBoard(props) {
   }, []);
 
   const updateBoard = useCallback((boards) => {
-    // console.log('boards: ', boards, 'boardsToBeSolved: ', boardsToBeSolved[boards]);
+    console.log('AI', 'boards: ', boards, 'boardsToBeSolved: ', boardsToBeSolved[boards]);
     setCurrentList(boardsToBeSolved[boards][indexToSolve]);
     let obj = mergeCurrMergeLsts(boardsToBeSolved[boards][0]);
     setRandomList(boardsToBeSolved[boards][0]);
@@ -86,6 +90,48 @@ export default function CompeteBoard(props) {
     }
     return merged;
   }, []);
+
+  useEffect(() => {
+    if (intervalIndex.current === 0) {
+      if (boardsSolved === boardsToBeSolved.length - 1) {
+        props.changeSolved(true);
+      } else {
+        setSolvedBoard([...solvedBoard, currentList]);
+        setCurrentList(sortedLists[indexToSolve + 1]);
+        if (indexToSolve + 1 === sortedLists.length) {
+          let boards = boardsSolved + 1;
+          if (boards >= boardsToBeSolved.length) {
+            setDone(true);
+            setSolvedBoard([]);
+            setIndexToSolve(0);
+            setRandomList([]);
+            setSortedLists([]);
+            setCurrentList([]);
+            setCurrentListObj([]);
+            setMergeList([]);
+            props.changeScore(boards);
+            setBoardsSolved(boards);
+            props.changeBoard(boards);
+          } else {
+            setSolvedBoard([]);
+            setIndexToSolve(1);
+            setRandomList([]);
+            setSortedLists([]);
+            setCurrentList([]);
+            setCurrentListObj([]);
+            setMergeList([]);
+            props.changeScore(boards);
+            setBoardsSolved(boards);
+            props.changeBoard(boards);
+            updateBoard(boards);
+          }
+        } else {
+          setIndexToSolve(indexToSolve + 1);
+        }
+      }
+    }
+    // console.log('intervalIndex', intervalIndex.current, 'boardsSolved', boardsSolved);
+  }, [intervalIndex.current]);
 
   useEffect(() => {
     let checkLst = currentList;
