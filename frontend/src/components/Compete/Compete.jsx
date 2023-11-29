@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import styles from "./Compete.module.css";
 
@@ -77,9 +77,9 @@ export default function Compete() {
           <h2>Select Difficulty</h2>
         )}
         {showButtons || showBoardType || showDifficulty ? null : difficulty ===
-            "none" || boardType === "none" ? null : againstAi ? (
-          <AgainstAi difficulty={difficulty} boardType={boardType} />
-        ) : (
+          "none" || boardType === "none" ? null : againstAi ? (
+            <AgainstAi difficulty={difficulty} boardType={boardType} />
+          ) : (
           <AgainstPlayer difficulty={difficulty} boardType={boardType} />
         )}
         {!showButtons ? null : (

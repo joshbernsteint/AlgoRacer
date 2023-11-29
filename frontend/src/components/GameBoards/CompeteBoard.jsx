@@ -17,6 +17,8 @@ export default function CompeteBoard(props) {
     changeScore: function
     changeBoard: function
     draggable: boolean
+    against: string
+    roomId: string
     boardsToBeSolved: list of lists
     solvedBoard: list of lists
   }
@@ -40,6 +42,8 @@ export default function CompeteBoard(props) {
   const [boardsToBeSolved, setBoardsToBeSolved] = useState(props.boardsToBeSolved);
 
   const [done, setDone] = useState(false);
+
+  const [againstWho, setAgainstWho] = useState(props.against); // ['ai', 'player']
 
   const setUpBoard = useCallback(() => {
     setCurrentList(sortedLists[indexToSolve]);

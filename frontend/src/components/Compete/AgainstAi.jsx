@@ -205,7 +205,7 @@ export default function AgainstAi(props) {
           <div className={styles.board}>
             <h1>Your Board</h1>
             <h2>Your Score: {userScore}</h2>
-            <CompeteBoard draggable={true} boardSize={boardSize} difficulty={difficulty} boardType={boardType} randomList={randomList} sortedLists={sortedLists} solvedBoard={[]} changeScore={setUserScore} changeBoard={setUserBoard} changeSolved={setUserSolved} boardsToBeSolved={boardsToBeSolved} />
+            <CompeteBoard draggable={true} boardSize={boardSize} difficulty={difficulty} boardType={boardType} randomList={randomList} sortedLists={sortedLists} against={'ai'} roomId={'none'} solvedBoard={[]} changeScore={setUserScore} changeBoard={setUserBoard} changeSolved={setUserSolved} boardsToBeSolved={boardsToBeSolved} />
           </div>
           <div className={styles.board}>
             <h1>Opponent's Board</h1>
