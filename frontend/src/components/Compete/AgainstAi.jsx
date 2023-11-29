@@ -22,6 +22,8 @@ export default function AgainstAi(props) {
   const [sortedLists, setSortedLists] = useState([]);
   const [boardsToBeSolved, setBoardsToBeSolved] = useState([]);
 
+  const [intervalVariation, setIntervalVariation] = useState(0); // [0, 2, 3]
+
   const [timer, setTimer] = useState(0);
   // const [aiInterval, setAiInterval] = useState(0);
   // const [intervalIndex, setIntervalIndex] = useState(0);
@@ -51,15 +53,21 @@ export default function AgainstAi(props) {
     if (started === true) {
       interval.current = setInterval(() => {
         setTimer(timer => timer + 1);
-        // setIntervalIndex(aiInterval => aiInterval - 1);
-        intervalIndex.current = intervalIndex.current - 1;
+        // let plus_minus = Math.random() < 0.5 ? -1 : 1;
+        let variation = Math.floor(Math.random() * intervalVariation + 1);
+        if (intervalVariation === 0) {
+          intervalIndex.current = intervalIndex.current - 1;
+        } else {
+          intervalIndex.current = intervalIndex.current - variation;
+        }
+        console.log('intervalIndex', intervalIndex.current);
       }, 1000);
       return () => clearInterval(interval.current);
     }
   }, [started]);
 
   useEffect(() => {
-    if (intervalIndex.current === 0) {
+    if (intervalIndex.current <= 0) {
       if (aiBoard === boardsToBeSolved.length - 1) {
         setAiSolved(true);
       }
@@ -80,7 +88,7 @@ export default function AgainstAi(props) {
       setUserSolved(true);
       console.log('user solved');
     }
-    console.log('user board changed');
+    // console.log('user board changed');
   }, [userBoard, boardsToBeSolved]);
 
   const setUpLists = useCallback(() => {
@@ -91,8 +99,7 @@ export default function AgainstAi(props) {
       number_to_solve = 10;
       setNumberToSolve(10);
       setBoardSize(5);
-      // setAiInterval(20);
-      // setIntervalIndex(20);
+      setIntervalVariation(0);
       aiInterval.current = 10;
       intervalIndex.current = 10;
     } else if (difficulty === 'normal') {
@@ -100,8 +107,7 @@ export default function AgainstAi(props) {
       number_to_solve = 20;
       setNumberToSolve(20);
       setBoardSize(6);
-      // setAiInterval(10);
-      // setIntervalIndex(10);
+      setIntervalVariation(2);
       aiInterval.current = 8;
       intervalIndex.current = 8;
     } else if (difficulty === 'insane') {
@@ -109,8 +115,7 @@ export default function AgainstAi(props) {
       number_to_solve = 30;
       setNumberToSolve(30);
       setBoardSize(8);
-      // setAiInterval(5);
-      // setIntervalIndex(5);
+      setIntervalVariation(3);
       aiInterval.current = 5;
       intervalIndex.current = 5;
     }
@@ -194,6 +199,7 @@ export default function AgainstAi(props) {
       <div className={styles.main}>
         <h1>AgainstAi</h1>
         {started ? null : (<div className={styles.select_container}> <button className={styles.select_btn} onClick={() => setStarted(true)}>Start</button> </div>)}
+        {started ? null : (<div className={styles.select_container}> <button className={styles.back_btn} onClick={() => window.location.reload(false)}>Cancel</button> </div>)}
         {started === true && sortedLists && sortedLists.length !== 0 ? (<div>{timer}</div>) : null}
         {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.boards_container}>
           <div className={styles.board}>

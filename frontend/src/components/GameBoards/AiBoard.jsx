@@ -92,7 +92,7 @@ export default function AiBoard(props) {
   }, []);
 
   useEffect(() => {
-    if (intervalIndex.current === 0) {
+    if (intervalIndex.current <= 0) {
       if (boardsSolved === boardsToBeSolved.length - 1) {
         props.changeSolved(true);
       } else {
