@@ -100,7 +100,7 @@ async function addToLeaderboard(userId, leaderboardName, time_taken, got_score, 
     return {_id: updated._id.toString(), newRanking: combined};
 }
 
-modules.export = {
+module.exports = {
     createLeaderboard: createLeaderboard,
     getAllLeaderboards: getAllLeaderboards,
     getLeaderboardById: getLeaderboardById,

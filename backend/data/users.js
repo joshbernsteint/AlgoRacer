@@ -1,5 +1,7 @@
 const collection = require("../config/mongoCollections");
-const { checkEmailAndTrim, checkAndTrim, validateMongoId, toObjectId, checkNumber } = require("../utils");
+const validator = require('email-validator');
+const { checkEmailAndTrim, checkAndTrim, validateMongoId, toObjectId, checkNumber, validatePassword } = require("../utils");
+const bcrypt = require('bcryptjs');
 
 
 /**
@@ -8,17 +10,55 @@ const { checkEmailAndTrim, checkAndTrim, validateMongoId, toObjectId, checkNumbe
 const userNotFound = "User could not be found";
 const insertError = "User could not be created";
 
+const saltRounds = 5;
+
 
 async function createUser(email, password, displayName){
     const trimmedEmail = checkEmailAndTrim(email);
     const trimmedPassword = checkAndTrim(password, "password");
     const trimmedName = checkAndTrim(displayName, "displayName");
 
+    //Check to see if email already exists
+    const allUsers = await getAllUsers();
+    allUsers.forEach(user => {
+        if(user.emailAddress === trimmedEmail) throw 'emailAddress is already in use';
+        if(user.displayName === trimmedName) throw 'displayName is already in use';
+    });
+
+
+    
+    if(!validatePassword(trimmedPassword)) throw 'Password must be at least 8 characters long, have at least 1 number, at least 1 special character, and at least 1 uppercase character. It also must have no internal space characters';
+    const hashedPassword = await bcrypt.hash(trimmedPassword, saltRounds);
     const userCollection = await collection.users();
+
+
     const result = await userCollection.insert({
         emailAddress: trimmedEmail,
-        password: trimmedPassword,
-        displayName: trimmedName
+        password: hashedPassword,
+        displayName: trimmedName,
+        stats: {
+            Beginner: {
+                "high_score": 0,
+                "high_score_time": 0,
+                "average_score": 0,
+                "games_played": 0,
+                "time_spent": 0
+            },
+            Normal: {
+                "high_score": 0,
+                "high_score_time": 0,
+                "average_score": 0,
+                "games_played": 0,
+                "time_spent": 0
+            },
+            Insane: {
+                "high_score": 0,
+                "high_score_time": 0,
+                "average_score": 0,
+                "games_played": 0,
+                "time_spent": 0
+            }
+        }
     });
 
     if(!result.acknowledged || !result.insertedId){
@@ -36,6 +76,15 @@ async function getUser(id){
       throw userNotFound;
     };
     return user;
+}
+
+async function getAllUsers(){
+    const userCollection = await collection.users();
+    const res = await userCollection.find({}).toArray();
+    const result = res.map(el => {
+        return {_id: el._id.toString(), displayName: el.displayName, emailAddress: el.emailAddress, password: el.password};
+    });
+    return result;
 }
 
 async function changePassword(userId, newPassword){
@@ -87,5 +136,6 @@ module.exports = {
     getUser: getUser,
     updateStats: updateStats,
     changeDisplayName: changeDisplayName,
-    changePassword: changePassword
+    changePassword: changePassword,
+    getAllUsers: getAllUsers
 }

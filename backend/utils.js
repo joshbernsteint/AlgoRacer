@@ -31,6 +31,15 @@ function toObjectId(str_id){
     return new mongo.ObjectId(id);
 }
 
+function validatePassword(password){
+    const psswrd = password;
+    if(psswrd.search(/^\s+$/) !== -1) return false;
+    if(psswrd.length < 8) return false;
+    if(psswrd.search(/^[A-Z]/) === -1 || psswrd.search(/[0-9]/) === -1 || psswrd.search(/[\s]/) !== -1 || psswrd.search(/[^A-Za-z0-9]/) === -1) 
+      return false;
+    return true;
+}
+
 /**
  * Checks to see if the passed in value is a number and exists
  * @param {*} num Number to be checked
@@ -49,4 +58,5 @@ module.exports = {
     validateMongoId: validateMongoId,
     toObjectId: toObjectId,
     checkNumber: checkNumber,
+    validatePassword: validatePassword
 }

@@ -1,5 +1,7 @@
 const users = require("./users");
+const leaderboard = require("./leaderboard");
 
 module.exports = {
-  users: require("./users")
+  users: users,
+  leaderboard: leaderboard
 };

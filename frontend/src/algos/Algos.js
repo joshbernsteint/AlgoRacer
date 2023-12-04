@@ -69,8 +69,13 @@ function SelectionSort(rlst) {
   return lst;
 }
 
-module.exports = {
+// module.exports = {
+//   BubbleSort: BubbleSort,
+//   InsertionSort: InsertionSort,
+//   SelectionSort: SelectionSort
+// };
+export{
   BubbleSort,
   InsertionSort,
   SelectionSort
-};
+}
