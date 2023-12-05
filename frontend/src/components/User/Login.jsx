@@ -35,10 +35,10 @@ export default function Login() {
         <input type="email" name="email" id="email" value={email} onChange={handleEmailChange} />
       </div>
       <div className={styles.input}>
-        <input type="submit" value="Register" />
+        <input type="submit" value="Login" />
       </div>
       <div className={styles.input}>
-        <Link to="/login">Login</Link>
+        <Link to="/register">Don't have an account? Register Here</Link>
       </div>
     </form>
   )

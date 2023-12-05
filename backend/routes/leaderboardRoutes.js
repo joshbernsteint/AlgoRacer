@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const leaderboardFunctions = require('../data/leaderboard')
 
-router.post('/add/:id', async (req, res) => {
+router.post('/add/:id/', async (req, res) => {
     try {
         const body = req.body;
-        const result = await leaderboardFunctions.addToLeaderboard(req.params.id, body.name,body.time_taken, body.got_score, body.timestamp);
+        const result = await leaderboardFunctions.addToLeaderboard(req.params.id, body.name,body.time_taken, body.got_score, body.timestamp, body.difficulty);
         res.json({added: true});
     } catch (error) {
         res.status(400).json({error: error.toString()});
@@ -14,8 +14,9 @@ router.post('/add/:id', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const all = await leaderboardFunctions.getAllLeaderboards();
-        res.json({all: all});
+        res.json(all);
     } catch (error) {
+        console.log(error.toString());
         res.status(400).json({error: error.toString()});
     }
 });

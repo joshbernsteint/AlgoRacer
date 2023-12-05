@@ -32,7 +32,7 @@ async function createUser(email, password, displayName){
     const userCollection = await collection.users();
 
 
-    const result = await userCollection.insert({
+    const result = await userCollection.insertOne({
         emailAddress: trimmedEmail,
         password: hashedPassword,
         displayName: trimmedName,

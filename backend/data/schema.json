@@ -30,38 +30,89 @@
         }
     ],
     "leaderboard": [
-       {
-            "name": "Beginner",
-            "userList": [
+        {
+            "name": "Bubble Sort",
+            "difficulties": ["Beginner", "Normal", "Insane"],
+            "Beginner": [
+                        {
+                            "displayName": "String",
+                            "time_taken": "Integer",
+                            "score": "Whole Number",
+                            "timestamp": "UNIX timestamp"
+                        }
+                    ],
+            "Normal": [
                 {
-                    "_id": "String",
+                    "displayName": "String",
                     "time_taken": "Integer",
                     "score": "Whole Number",
                     "timestamp": "UNIX timestamp"
                 }
-            ]
-       },
-       {
-            "name": "Normal",
-            "userList": [
+            ],
+            "Insane": [
                 {
-                    "_id": "String",
+                    "displayName": "String",
                     "time_taken": "Integer",
                     "score": "Whole Number",
                     "timestamp": "UNIX timestamp"
                 }
             ]
         },
-       {
-            "name": "Insane",
-            "userList": [
+        {
+            "name": "Selection Sort",
+            "difficulties": ["Beginner", "Normal", "Insane"],
+            "Beginner": [
+                        {
+                            "displayName": "String",
+                            "time_taken": "Integer",
+                            "score": "Whole Number",
+                            "timestamp": "UNIX timestamp"
+                        }
+                    ],
+            "Normal": [
                 {
-                    "_id": "String",
+                    "displayName": "String",
+                    "time_taken": "Integer",
+                    "score": "Whole Number",
+                    "timestamp": "UNIX timestamp"
+                }
+            ],
+            "Insane": [
+                {
+                    "displayName": "String",
                     "time_taken": "Integer",
                     "score": "Whole Number",
                     "timestamp": "UNIX timestamp"
                 }
             ]
-       }
+        },
+        {
+            "name": "Insertion Sort",
+            "difficulties": ["Beginner", "Normal", "Insane"],
+            "Beginner": [
+                        {
+                            "displayName": "String",
+                            "time_taken": "Integer",
+                            "score": "Whole Number",
+                            "timestamp": "UNIX timestamp"
+                        }
+                    ],
+            "Normal": [
+                {
+                    "displayName": "String",
+                    "time_taken": "Integer",
+                    "score": "Whole Number",
+                    "timestamp": "UNIX timestamp"
+                }
+            ],
+            "Insane": [
+                {
+                    "displayName": "String",
+                    "time_taken": "Integer",
+                    "score": "Whole Number",
+                    "timestamp": "UNIX timestamp"
+                }
+            ]
+        }
     ]
-}
+    }

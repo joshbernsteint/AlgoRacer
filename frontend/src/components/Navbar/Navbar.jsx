@@ -13,6 +13,7 @@ export default function NavBar() {
           <Link to="/practice" className={styles.nav_btn}>Practice</Link>
           <Link to="/compete" className={styles.nav_btn}>Compete</Link>
           <Link to="/learn" className={styles.nav_btn}>Learn</Link>
+          <Link to="/leaderboards" className={styles.nav_btn}>Leaderboards</Link>
         </div>
       </div>
     </div>

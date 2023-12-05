@@ -1,4 +1,5 @@
 const collection = require("../config/mongoCollections");
+const userFunctions = require('./users')
 const {checkAndTrim, validateMongoId, toObjectId, checkNumber } = require("../utils");
 
 const boardNotFound = "Leaderboard could not be found";
@@ -14,9 +15,12 @@ async function createLeaderboard(name){
         if(el.name === trimmedName) throw sameNameError;
     });
 
-    const result = await leaderboardCollection.insert({
+    const result = await leaderboardCollection.insertOne({
         name: trimmedName,
-        userList: []
+        difficulties: ["Beginner", "Normal", "Insane"],
+            Beginner: [],
+            Normal: [],
+            Insane: []
     });
 
     if(!result.acknowledged || !result.insertedId){
@@ -38,6 +42,7 @@ async function getLeaderboardById(leaderboardId){
 
 async function getLeaderboardByName(name){
     const trimmedName = checkAndTrim(name, "name");
+    const leaderboardCollection = await collection.leaderboards();
     const board = await leaderboardCollection.findOne({name: trimmedName});
     if(board === null){
         throw boardNotFound;
@@ -52,15 +57,17 @@ async function getAllLeaderboards(){
     return boards;
 }
 
-async function addToLeaderboard(userId, leaderboardName, time_taken, got_score, run_timestamp){
-    const id = validateMongoId(userId);
+async function addToLeaderboard(userId, leaderboardName, time_taken, got_score, run_timestamp, difficulty){
+    const user = await userFunctions.getUser(userId);
     const boardName = checkAndTrim(leaderboardName);
     const time = checkNumber(time_taken, "time_taken");
     const score = checkNumber(got_score, "got_score");
     const timestamp = checkNumber(run_timestamp, "run_timestamp");
+    const diff = checkAndTrim(difficulty, "difficulty");
 
     const currentBoard = await getLeaderboardByName(boardName);
-    const ranking = currentBoard.userList;
+    if(!currentBoard.difficulties.includes(diff)) throw 'Invalid difficulty';
+    const ranking = currentBoard[diff];
     const sameScore = [];
     const allOtherScores = [];
     ranking.forEach(el => {
@@ -72,7 +79,7 @@ async function addToLeaderboard(userId, leaderboardName, time_taken, got_score, 
         }
     });
     sameScore.push({
-        _id: toObjectId(id),
+        displayName: user.displayName,
         time_taken: time,
         score: score,
         timestamp: timestamp
@@ -95,9 +102,10 @@ async function addToLeaderboard(userId, leaderboardName, time_taken, got_score, 
     });
 
     const leaderboardCollection = await collection.leaderboards();
-    const updated = leaderboardCollection.findOneAndUpdate({_id: currentBoard._id}, {$set: {userList: combined}}, {returnDocument: "after"});
+    const updated = await leaderboardCollection.findOneAndUpdate({_id: currentBoard._id}, {$set: {[diff]: combined}}, {returnDocument: "after"});
     if(!updated) throw "leaderboard could not be updated";
     return {_id: updated._id.toString(), newRanking: combined};
+    
 }
 
 module.exports = {

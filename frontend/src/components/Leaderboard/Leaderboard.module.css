@@ -1,0 +1,77 @@
+#leaderboard_header{
+    width: 30%;
+    background-color: lightgray;
+    margin: 0 auto;
+    text-align: center;
+    padding: .5rem 3rem;
+    border: .1rem solid black;
+    border-radius: 5px;
+    margin-bottom: 4rem;
+}
+
+#leaderboard{
+    margin-right: auto;
+    margin-left: auto;
+    overflow-y: scroll;
+}
+
+#main{
+    width: 100vw;
+    height: 100vh;
+}
+
+.element{
+    width: 75%;
+    margin: 0 auto;
+    margin-top: 3rem;
+    justify-content: center;
+    align-items: center;
+    background-color: lightgray;
+    padding: 0.5rem 2rem;
+    border: .1rem solid black;
+    border-radius: 5px;
+    border-radius: 5px;
+}
+
+.name{
+    font-size: 16pt;
+    font-weight: 700;
+    text-align: left;
+    padding: 1rem 5rem;
+    border-top: .1rem solid black;
+    border-left: .1rem solid black;
+    border-bottom: .1rem solid black;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.date,.time{
+    font-size: 14pt;
+    text-align: left;
+    margin-right: 40px;
+    padding: 1rem 5rem;
+    border-top: .1rem solid black;
+    border-bottom: .1rem solid black;
+
+}
+
+.score{
+    font-size: 16pt;
+    font-weight: 700;
+    text-align: right;
+    margin-right: 40px;
+    padding: 1rem 5rem;
+    border-right: .1rem solid black;
+    border-top: .1rem solid black;
+    border-bottom: .1rem solid black;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.blank{
+    height: 15px;
+}
+
+#filterButton{
+    border: none;
+}

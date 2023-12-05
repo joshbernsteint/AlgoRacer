@@ -47,7 +47,7 @@ export default function Register() {
         <input type="submit" value="Register" />
       </div>
       <div className={styles.input}>
-        <Link to="/login">Login</Link>
+        <Link to="/login">Already have an account? Login Here</Link>
       </div>
     </form>
   )
