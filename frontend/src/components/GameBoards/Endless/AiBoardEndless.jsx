@@ -2,39 +2,38 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, horizontalListSortingStrategy, sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable';
 
-import SortableItem from './SortableItem';
-import NonSortableItem from './NonSortableItem';
+import SortableItem from '../SortableItem';
+import NonSortableItem from '../NonSortableItem';
 
-export default function CompeteBoard(props) {
-  /*
-  props: {
-    boardSize: int
-    difficulty: string
-    boardType: string
-    randomList: list
-    sortedLists: list of lists
-    solvedBoard: list of lists
-    changeScore: function
-    changeBoard: function
-    draggable: boolean
-    against: string
-    roomId: string
-    boardsToBeSolved: list of lists
-    solvedBoard: list of lists
-  }
-  */
+/*
+props: {
+  boardSize: int
+  difficulty: string
+  boardType: string
+  randomList: list
+  sortedLists: list of lists
+  solvedBoard: list of lists
+  changeScore: function
+  changeBoard: function
+  draggable: boolean
+  boardsToBeSolved: list of lists
+  solvedBoard: list of lists
+}
+*/
+export default function AiBoardEndless(props) {
   const [sortedLists, setSortedLists] = useState(props.sortedLists);
   const [indexToSolve, setIndexToSolve] = useState(1);
   const [randomList, setRandomList] = useState(props.randomList);
   const [currentList, setCurrentList] = useState([]);
   const [currentListObj, setCurrentListObj] = useState([]);
   const [mergeList, setMergeList] = useState([]);
-  const [mode, setMode] = useState(props.mode);
+
+  const intervalIndex = props.intervalIndex;
 
   const [boardStyle, setBoardStyle] = useState({
     width: (props.boardSize * 80 + (props.boardSize - 1) * 5) + 'px',
     display: "grid",
-    "gridTemplateColumns": "repeat(" + (props.boardSize) + ", 80px)",
+    "gridTemplateColumns": "repeat(" + props.boardSize + ", 80px)",
     gap: "5px 5px",
   });
 
@@ -43,8 +42,6 @@ export default function CompeteBoard(props) {
   const [boardsToBeSolved, setBoardsToBeSolved] = useState(props.boardsToBeSolved);
 
   const [done, setDone] = useState(false);
-
-  const [againstWho, setAgainstWho] = useState(props.against); // ['ai', 'player']
 
   const setUpBoard = useCallback(() => {
     setCurrentList(sortedLists[indexToSolve]);
@@ -55,18 +52,18 @@ export default function CompeteBoard(props) {
   }, []);
 
   const updateBoard = useCallback((boards) => {
-    // console.log('boards: ', boards, 'boardsToBeSolved: ', boardsToBeSolved[boards]);
-    setCurrentList(boardsToBeSolved[boards][indexToSolve]);
-    let obj = mergeCurrMergeLsts(boardsToBeSolved[boards][0]);
-    setRandomList(boardsToBeSolved[boards][0]);
+    console.log('AI', 'boards: ', boards, 'boardsToBeSolved: ', boardsToBeSolved.current[boards]);
+    setCurrentList(boardsToBeSolved.current[boards][indexToSolve]);
+    let obj = mergeCurrMergeLsts(boardsToBeSolved.current[boards][0]);
+    setRandomList(boardsToBeSolved.current[boards][0]);
     setCurrentListObj(obj);
-    setSortedLists(boardsToBeSolved[boards]);
+    setSortedLists(boardsToBeSolved.current[boards]);
     setMergeList(mergeLstIds(obj));
-    let len_of_board = boardsToBeSolved[boards][indexToSolve].length;
+    let len_of_board = boardsToBeSolved.current[boards][indexToSolve].length;
     setBoardStyle({
       width: (len_of_board * 80 + (len_of_board - 1) * 5) + 'px',
       display: "grid",
-      "gridTemplateColumns": "repeat(" + (len_of_board) + ", 80px)",
+      "gridTemplateColumns": "repeat(" + len_of_board + ", 80px)",
       gap: "5px 5px",
     });
   }, []);
@@ -93,25 +90,15 @@ export default function CompeteBoard(props) {
   }, []);
 
   useEffect(() => {
-    let checkLst = currentList;
-    let toBeChecked = [];
-    for (let i = 0; i < currentListObj.length; i++) {
-      toBeChecked.push(currentListObj[i].value);
-    }
-    if (toBeChecked.length !== 0) {
-      let isCorrect = true;
-      for (let i = 0; i < checkLst.length; i++) {
-        if (checkLst[i] !== toBeChecked[i]) {
-          isCorrect = false;
-          break;
-        }
-      }
-
-      if (isCorrect) {
-        if (indexToSolve === sortedLists.length - 1) {
-          // alert("You win!");
+    if (intervalIndex.current <= 0) {
+      if (boardsSolved === boardsToBeSolved.current.length - 1) {
+        props.changeSolved(true);
+      } else {
+        setSolvedBoard([...solvedBoard, currentList]);
+        setCurrentList(sortedLists[indexToSolve + 1]);
+        if (indexToSolve + 1 === sortedLists.length) {
           let boards = boardsSolved + 1;
-          if (boards >= boardsToBeSolved.length) {
+          if (boards >= boardsToBeSolved.current.length) {
             setDone(true);
             setSolvedBoard([]);
             setIndexToSolve(0);
@@ -136,7 +123,56 @@ export default function CompeteBoard(props) {
             props.changeBoard(boards);
             updateBoard(boards);
           }
-          // console.log('boards: ', boards, 'boardsSolved: ', boardsToBeSolved[boards]);
+        } else {
+          setIndexToSolve(indexToSolve + 1);
+        }
+      }
+    }
+  }, [intervalIndex.current]);
+
+  useEffect(() => {
+    let checkLst = currentList;
+    let toBeChecked = [];
+    for (let i = 0; i < currentListObj.length; i++) {
+      toBeChecked.push(currentListObj[i].value);
+    }
+    if (toBeChecked.length !== 0) {
+      let isCorrect = true;
+      for (let i = 0; i < checkLst.length; i++) {
+        if (checkLst[i] !== toBeChecked[i]) {
+          isCorrect = false;
+          break;
+        }
+      }
+
+      if (isCorrect) {
+        if (indexToSolve === sortedLists.length - 1) {
+          let boards = boardsSolved + 1;
+          if (boards >= boardsToBeSolved.current.length) {
+            setDone(true);
+            setSolvedBoard([]);
+            setIndexToSolve(0);
+            setRandomList([]);
+            setSortedLists([]);
+            setCurrentList([]);
+            setCurrentListObj([]);
+            setMergeList([]);
+            props.changeScore(boards);
+            setBoardsSolved(boards);
+            props.changeBoard(boards);
+          } else {
+            setSolvedBoard([]);
+            setIndexToSolve(1);
+            setRandomList([]);
+            setSortedLists([]);
+            setCurrentList([]);
+            setCurrentListObj([]);
+            setMergeList([]);
+            props.changeScore(boards);
+            setBoardsSolved(boards);
+            props.changeBoard(boards);
+            updateBoard(boards);
+          }
         } else {
           setSolvedBoard([...solvedBoard, currentList]);
           setCurrentList(sortedLists[indexToSolve + 1]);
@@ -171,35 +207,10 @@ export default function CompeteBoard(props) {
               newIndex = i;
             }
           }
-          // console.log("oldIndex: ", oldIndex);
-          // console.log("newIndex: ", newIndex);
           return arrayMove(currentListObj, oldIndex, newIndex);
         });
       }
     }
-  }
-
-  function resetRow() {
-    let previousList = [];
-    if (solvedBoard.length === 0) {
-      previousList = randomList;
-    } else {
-      previousList = solvedBoard[solvedBoard.length - 1];
-    }
-    setCurrentListObj(mergeCurrMergeLsts(previousList));
-    setMergeList(mergeLstIds(mergeCurrMergeLsts(previousList)));
-  }
-
-  function keepRow() {
-    let previousList = [];
-    if (solvedBoard.length === 0) {
-      previousList = randomList;
-    } else {
-      previousList = solvedBoard[solvedBoard.length - 1];
-    }
-    setCurrentListObj(mergeCurrMergeLsts(previousList));
-    setMergeList(mergeLstIds(mergeCurrMergeLsts(previousList)));
-    setCurrentList(sortedLists[indexToSolve]);
   }
 
   function formatSolvedBoard(lst, i) {
@@ -214,9 +225,6 @@ export default function CompeteBoard(props) {
   return (
     <div className='game_board'>
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-        {/* <div className="score">
-          Boards Solved: {boardsSolved}
-        </div> */}
         <div style={boardStyle}>
           {solvedBoard && solvedBoard.length !== 0 ? solvedBoard.map((value, index) => {
             return (
@@ -231,10 +239,7 @@ export default function CompeteBoard(props) {
             </SortableContext>) : (
               currentListObj && currentListObj.length !== 0 ? currentListObj.map((value, index) => <NonSortableItem key={value.id} id={value.id} value={value.value} />) : null
             )}
-          <button className='game_piece reset_btn' onClick={() => resetRow()}>Reset Row</button>
-          <button className='game_piece keep_btn' onClick={() => keepRow()}>No Diff</button>
         </div>
-        {/* {done ? <button onClick={() => setDone(false)}>Reset</button> : null} */}
         {done ? <h2>Done</h2> : null}
       </DndContext>
     </div>

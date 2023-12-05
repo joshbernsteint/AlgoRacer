@@ -228,14 +228,7 @@ export default function AiBoard(props) {
     }
     return formatted;
   }
-  // if (props.draggable === true) {
-  //   console.log('sortedList: ', sortedLists);
-  //   console.log('solvedBoard: ', solvedBoard);
-  //   console.log('randomList: ', randomList);
-  //   console.log('currentList: ', currentList);
-  //   console.log('currentListObj: ', currentListObj);
-  //   console.log('indexToSolve: ', indexToSolve);
-  // }
+
   return (
     <div className='game_board'>
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import styles from './Practice.module.css';
 
@@ -25,7 +25,6 @@ export default function Practice() {
         <button className={styles.select_btn} onClick={() => setBoardType('bubble')}>Bubble Sort</button>
         <button className={styles.select_btn} onClick={() => setBoardType('insertion')}>Insertion Sort</button>
         <button className={styles.select_btn} onClick={() => setBoardType('selection')}>Selection Sort</button>
-        <button className={styles.select_btn} onClick={() => setBoardType('merge')}>Merge Sort</button>
       </div>
     )
   }
@@ -53,12 +52,12 @@ export default function Practice() {
           </div>
           {boardType === 'none' ? <h2>Select Board Type</h2> : null}
           {difficulty === 'none' && boardType !== 'none' ? <h2>Select Difficulty</h2> : null}
-          {difficulty !== 'none' && boardType !== 'none' ? <h2>Difficulty: {difficulty}</h2> : null}
+          {difficulty !== 'none' && boardType !== 'none' ? <h2>Difficulty: {difficulty === "beginner" ? "Beginner" : difficulty === "normal" ? "Normal" : "Insane"}</h2> : null}
         </div>
         {boardType === 'none' ? selectBoardType() : null}
         {difficulty === 'none' && boardType !== 'none' ? selectDifficulty() : null}
         {difficulty === 'none' ? null : <GameBoard boardSize={boardSize} difficulty={difficulty} boardType={boardType} />}
-        {boardType === 'none' ? null : <button className={styles.back_btn} onClick={() => handleBack()}>Back</button>}
+        {boardType === 'none' ? null : <button className={styles.back_btn} onClick={() => handleBack()}>Done</button>}
       </div>
     </div>
   )

@@ -1,12 +1,16 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, horizontalListSortingStrategy, sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable';
 
 import SortableItem from './SortableItem';
 
+import { BubbleSort, InsertionSort, SelectionSort } from '../../algos/Algos';
+
 export default function GameBoard(props) {
   const [sortedLists, setSortedLists] = useState([]);
-  const [indexToSolve, setIndexToSolve] = useState(0);
+  const [boardType, setBoardType] = useState(props.boardType);
+  const [difficulty, setDifficulty] = useState(props.difficulty);
+  const [indexToSolve, setIndexToSolve] = useState(1);
   const [randomList, setRandomList] = useState([]);
   const [currentList, setCurrentList] = useState([]);
   const [currentListObj, setCurrentListObj] = useState([]);
@@ -20,42 +24,40 @@ export default function GameBoard(props) {
   const [solvedBoard, setSolvedBoard] = useState([]);
   const [boardsSolved, setBoardsSolved] = useState(0);
 
-  // this will be done by the backend
-  const createRandomList = useCallback(() => {
+  const [timer, setTimer] = useState(0);
+
+  const [started, setStarted] = useState(true);
+
+  const interval = useRef(null);
+
+  useEffect(() => {
+    if (started === true) {
+      interval.current = setInterval(() => {
+        setTimer(timer => timer + 1);
+      }, 1000);
+      return () => clearInterval(interval.current);
+    }
+  }, [started]);
+
+  const createRandomList = useCallback((boardLen) => {
     let lst = [];
-    for (let i = 0; i < props.boardSize; i++) {
+    for (let i = 0; i < boardLen; i++) {
       lst.push(Math.floor(Math.random() * 10));
     }
     return lst;
-  }, [props.boardSize]);
+  }, []);
 
   const sortList = useCallback((sortingAlgorithm, rlst) => {
     let lst = [];
-    let arr = [...rlst];
-    if (sortingAlgorithm === 'bubbleSort') {
-      // do bubblesort but save at each step
-      for (var i = 0; i < arr.length; i++) {
-        // Last i elements are already in place
-        let swapped = false;
-        for (var j = 0; j < (arr.length - i - 1); j++) {
-          // Checking if the item at present iteration  
-          // is greater than the next iteration 
-          if (arr[j] > arr[j + 1]) {
-            // If the condition is true 
-            // then swap them 
-            var temp = arr[j]
-            arr[j] = arr[j + 1]
-            arr[j + 1] = temp
-            swapped = true;
-          }
-        }
-        if (!swapped) {
-          break;
-        }
-        lst.push([...arr]);
-      }
+    if (sortingAlgorithm === 'bubble') {
+      lst = BubbleSort(rlst);
+    } else if (sortingAlgorithm === 'insertion') {
+      lst = InsertionSort(rlst);
+    } else if (sortingAlgorithm === 'selection') {
+      lst = SelectionSort(rlst);
+    } else {
+      lst = rlst;
     }
-    console.log(lst);
     setSortedLists(lst);
     return lst;
   }, []);
@@ -78,15 +80,30 @@ export default function GameBoard(props) {
   }, []);
 
   const setUpBoard = useCallback(() => {
-    let rlst = createRandomList();
+    let boardLen = 0;
+    if (difficulty === 'beginner') {
+      boardLen = 5;
+    } else if (difficulty === 'normal') {
+      boardLen = Math.floor(5 + (Math.random() * 3));
+    } else {
+      boardLen = Math.floor(5 + (Math.random() * 5));
+    }
+    let rlst = createRandomList(boardLen);
     setRandomList(rlst);
-    let slst = sortList('bubbleSort', rlst);
+    let slst = sortList(boardType, rlst);
+    // console.log('slst: ', slst);
     setCurrentList(slst[indexToSolve]);
     let obj = mergeCurrMergeLsts(rlst);
     setCurrentListObj(obj);
     setSortedLists(slst);
     setMergeList(mergeLstIds(obj));
     setSolvedBoard([]);
+    setBoardStyle({
+      width: (boardLen * 80 + (boardLen - 1) * 5) + 'px',
+      display: "grid",
+      "gridTemplateColumns": "repeat(" + (boardLen) + ", 80px)",
+      gap: "5px 5px",
+    });
   }, []);
 
   useEffect(() => {
@@ -110,9 +127,8 @@ export default function GameBoard(props) {
 
       if (isCorrect) {
         if (indexToSolve === sortedLists.length - 1) {
-          // alert("You win!");
           setSolvedBoard([]);
-          setIndexToSolve(0);
+          setIndexToSolve(1);
           setRandomList([]);
           setSortedLists([]);
           setCurrentList([]);
@@ -152,11 +168,32 @@ export default function GameBoard(props) {
             newIndex = i;
           }
         }
-        // console.log("oldIndex: ", oldIndex);
-        // console.log("newIndex: ", newIndex);
         return arrayMove(currentListObj, oldIndex, newIndex);
       });
     }
+  }
+
+  function resetRow() {
+    let previousList = [];
+    if (solvedBoard.length === 0) {
+      previousList = randomList;
+    } else {
+      previousList = solvedBoard[solvedBoard.length - 1];
+    }
+    setCurrentListObj(mergeCurrMergeLsts(previousList));
+    setMergeList(mergeLstIds(mergeCurrMergeLsts(previousList)));
+  }
+
+  function keepRow() {
+    let previousList = [];
+    if (solvedBoard.length === 0) {
+      previousList = randomList;
+    } else {
+      previousList = solvedBoard[solvedBoard.length - 1];
+    }
+    setCurrentListObj(mergeCurrMergeLsts(previousList));
+    setMergeList(mergeLstIds(mergeCurrMergeLsts(previousList)));
+    setCurrentList(sortedLists[indexToSolve]);
   }
 
   function formatSolvedBoard(lst, i) {
@@ -171,8 +208,13 @@ export default function GameBoard(props) {
   return (
     <div className='game_board'>
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-        <div className="score">
-          Boards Solved: {boardsSolved}
+        <div className="top_board">
+          <div className="score">
+            Boards Solved: {boardsSolved}
+          </div>
+          {started ? <div className="timer">
+            Timer: {timer} s
+          </div> : null}
         </div>
         <div style={boardStyle}>
           {solvedBoard && solvedBoard.length !== 0 ? solvedBoard.map((value, index) => {
@@ -185,6 +227,8 @@ export default function GameBoard(props) {
           <SortableContext items={mergeList} collisionDetection={closestCenter} strategy={horizontalListSortingStrategy}>
             {currentListObj && currentListObj.length !== 0 ? currentListObj.map((value, index) => <SortableItem key={value.id} id={value.id} value={value.value} />) : null}
           </SortableContext>
+          <button className='game_piece reset_btn' onClick={() => resetRow()}>Reset Row</button>
+          <button className='game_piece keep_btn' onClick={() => keepRow()}>No Diff</button>
         </div>
       </DndContext>
     </div>

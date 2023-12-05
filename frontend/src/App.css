@@ -1,10 +1,18 @@
 .App {
-  margin: 0px;
   background-color: var(--color-secondary-light);
+  margin: 0px;
 }
 
 .content {
   margin-top: 50px;
+}
+
+.top_board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
 }
 
 .game_piece {
@@ -62,8 +70,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 50px;
+  height: 400px;
 }
 
 .opp_pieces {
@@ -71,4 +80,138 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+
+.current_row {
+  display: flex;
+  flex-direction: row;
+}
+
+.reset_btn {
+  position: relative;
+  width: 50px;
+  background-color: rgb(255, 97, 97);
+}
+
+.reset_btn:hover {
+  background-color: rgb(179, 34, 34);
+}
+
+.keep_btn {
+  position: relative;
+  text-align: center;
+  width: 50px;
+  background-color: rgb(255, 231, 97);
+}
+
+.keep_btn:hover {
+  background-color: rgb(179, 157, 34);
+}
+
+.page_title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+
+.page_select {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+@media screen and (min-width: 1200px) {
+  .game_piece {
+    width: 50px;
+  }
+
+  .game_piece_done {
+    width: 50px;
+  }
+
+  .game_box {
+    width: 60px;
+  }
+
+  .game_board {
+    align-items: center;
+    height: 400px;
+  }
+
+  .opp_pieces {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .game_board {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .opp_pieces {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .current_row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page_select {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .game_piece {
+    width: 30px;
+  }
+
+  .game_piece_done {
+    width: 30px;
+  }
+
+  .game_box {
+    width: 40px;
+  }
+
+  .game_board {
+    height: 200px;
+  }
+
+  .opp_pieces {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .game_board {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .opp_pieces {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .current_row {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page_select {
+    font-size: 1.25rem;
+  }
 }

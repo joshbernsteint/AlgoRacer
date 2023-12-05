@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import styles from "./Compete.module.css";
 
 import AgainstAi from "./AgainstAi";
-import AgainstPlayer from "./AgainstPlayer";
+import AgainstAiEndless from "./AgainstAiEndless";
 
 export default function Compete() {
   const [againstAi, setAgainstAi] = useState(true);
   const [showButtons, setShowButtons] = useState(true);
   const [difficulty, setDifficulty] = useState("none"); // ['beginner', 'normal', 'insane']
-  const [boardType, setBoardType] = useState("none"); // ['bubble', 'insertion', 'selection', 'merge']
+  const [boardType, setBoardType] = useState("none"); // ['bubble', 'insertion', 'selection']
   const [showBoardType, setShowBoardType] = useState(false);
   const [showDifficulty, setShowDifficulty] = useState(false);
 
@@ -54,33 +54,34 @@ export default function Compete() {
     }
   }
 
-  function handleLeave() {
-    setInGame(false);
-    setShowButtons(true);
-    setDifficulty("none");
-    setBoardType("none");
-    setShowBoardType(false);
-    setShowDifficulty(false);
-  }
-  // console.log(showButtons, showBoardType, showDifficulty);
+  // function handleLeave() {
+  //   setInGame(false);
+  //   setShowButtons(true);
+  //   setDifficulty("none");
+  //   setBoardType("none");
+  //   setShowBoardType(false);
+  //   setShowDifficulty(false);
+  // }
+
   return (
     <div>
       <div className={styles.main}>
-        <h1>Compete</h1>
+        <h1 className="page_title">Play</h1>
         {!showButtons || showBoardType || showDifficulty ? null : (
-          <h2>Select Opponent Type</h2>
+          <h2 className="page_select">Select Game Mode</h2>
         )}
+        {!showButtons ? againstAi ? <h2 className="page_select">Can you beat the bot to the last board?</h2> : <h2 className="page_select">The bot keeps speeding up, how will you fare?</h2> : null}
         {showButtons || !showBoardType || showDifficulty ? null : (
-          <h2>Select Board Type</h2>
+          <h2 className="page_select">Select Board Type</h2>
         )}
         {showButtons || showBoardType || !showDifficulty ? null : (
-          <h2>Select Difficulty</h2>
+          <h2 className="page_select">Select Difficulty</h2>
         )}
         {showButtons || showBoardType || showDifficulty ? null : difficulty ===
           "none" || boardType === "none" ? null : againstAi ? (
             <AgainstAi difficulty={difficulty} boardType={boardType} />
           ) : (
-          <AgainstPlayer difficulty={difficulty} boardType={boardType} />
+          <AgainstAiEndless difficulty={difficulty} boardType={boardType} />
         )}
         {!showButtons ? null : (
           <div className={styles.select_container}>
@@ -88,13 +89,13 @@ export default function Compete() {
               className={styles.select_btn}
               onClick={() => handleButtons(true)}
             >
-              Against AI
+              Race Against Bot
             </button>
             <button
               className={styles.select_btn}
               onClick={() => handleButtons(false)}
             >
-              Against Player
+              Endless Mode
             </button>
           </div>
         )}
@@ -104,19 +105,19 @@ export default function Compete() {
               className={styles.select_btn}
               onClick={() => handleDifficulty("beginner")}
             >
-              Beginner
+              Beginner{againstAi ? ": 10 Boards" : ""}
             </button>
             <button
               className={styles.select_btn}
               onClick={() => handleDifficulty("normal")}
             >
-              Normal
+              Normal{againstAi ? ": 20 Boards" : ""}
             </button>
             <button
               className={styles.select_btn}
               onClick={() => handleDifficulty("insane")}
             >
-              Insane
+              Insane{againstAi ? ": 30 Boards" : ""}
             </button>
           </div>
         ) : null}
@@ -140,12 +141,6 @@ export default function Compete() {
             >
               Selection Sort
             </button>
-            <button
-              className={styles.select_btn}
-              onClick={() => handleBoardType("merge")}
-            >
-              Merge Sort
-            </button>
           </div>
         ) : null}
         {showButtons || inGame ? null : (
@@ -153,7 +148,6 @@ export default function Compete() {
             Back
           </button>
         )}
-        {/* {!inGame ? null : <button className={styles.back_btn} onClick={() => handleLeave()}>Leave</button>} */}
       </div>
     </div>
   );

@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 import styles from './Compete.module.css';
 
-import CompeteBoard from '../GameBoards/CompeteBoard';
-import AiBoard from '../GameBoards/AiBoard';
+import CompeteBoardEndless from '../GameBoards/Endless/CompeteBoardEndless';
+import AiBoardEndless from '../GameBoards/Endless/AiBoardEndless';
 
 import { BubbleSort, InsertionSort, SelectionSort } from '../../algos/Algos';
 
@@ -32,10 +32,11 @@ export default function AgainstAi(props) {
 
   const [aiSolvedBoard, setAiSolvedBoard] = useState([]);
 
-  const [numberToSolve, setNumberToSolve] = useState(0); // [10, 20, 30]
-
   const [userSolved, setUserSolved] = useState(false);
   const [aiSolved, setAiSolved] = useState(false);
+
+  const [speed, setSpeed] = useState(1);
+  const [speedUp, setSpeedUp] = useState(0);
 
   // this will be done by the backend
   const createRandomList = useCallback((board_size) => {
@@ -48,17 +49,13 @@ export default function AgainstAi(props) {
 
   let interval = useRef(null);
 
+  let boardsToSolve = useRef([]);
+
   useEffect(() => {
     if (started === true) {
       interval.current = setInterval(() => {
         setTimer(timer => timer + 1);
-        // let plus_minus = Math.random() < 0.5 ? -1 : 1;
-        let variation = Math.floor(Math.random() * intervalVariation + 1);
-        if (intervalVariation === 0) {
-          intervalIndex.current = intervalIndex.current - 1;
-        } else {
-          intervalIndex.current = intervalIndex.current - variation;
-        }
+        intervalIndex.current = intervalIndex.current - 1;
       }, 1000);
       return () => clearInterval(interval.current);
     }
@@ -66,101 +63,129 @@ export default function AgainstAi(props) {
 
   useEffect(() => {
     if (intervalIndex.current <= 0) {
-      if (aiBoard === boardsToBeSolved.length - 1) {
-        setAiSolved(true);
-      }
       intervalIndex.current = aiInterval.current;
     }
-    // console.log('intervalIndex', intervalIndex, 'aiBoard', aiBoard);
   }, [timer]);
 
   useEffect(() => {
-    if (userBoard === boardsToBeSolved.length && boardsToBeSolved.length !== 0) {
-      clearInterval(interval.current);
-      setUserSolved(true);
-      console.log('user solved');
-    }
-  }, [userBoard, boardsToBeSolved]);
-
-  useEffect(() => {
-    if (aiBoard === boardsToBeSolved.length && boardsToBeSolved.length !== 0) {
+    if (aiBoard > userBoard) {
       clearInterval(interval.current);
       setAiSolved(true);
-      console.log('ai solved');
     }
-  }, [aiBoard, boardsToBeSolved]);
+  }, [aiBoard, userBoard]);
+
+  useEffect(() => {
+    let board_size = boardSize;
+    if (userBoard === boardsToSolve.current.length - 2 && userBoard > 7) {
+      let variation = difficulty === 'beginner' ? 0 : difficulty === 'normal' ? 1 : 2;
+      if (boardType === 'bubble') {
+        let btdslst = []; // boards to be solved list
+        for (let k = 0; k < 10; k++) {
+          let slst = [];
+          while (slst.length <= 2) {
+            let rlst = createRandomList(Math.floor(board_size - (Math.random() * variation)));
+            slst = BubbleSort(rlst);
+          }
+          btdslst.push(slst);
+        }
+        boardsToSolve.current = ([...boardsToSolve.current, ...btdslst]);
+      } else if (boardType === 'insertion') {
+        let btdslst = []; // boards to be solved list
+        for (let k = 0; k < 10; k++) {
+          let slst = [];
+          while (slst.length <= 2) {
+            let rlst = createRandomList(Math.floor(board_size - (Math.random() * variation)));
+            slst = InsertionSort(rlst);
+          }
+          btdslst.push(slst);
+        }
+        boardsToSolve.current = ([...boardsToSolve.current, ...btdslst]);
+      } else if (boardType === 'selection') {
+        let btdslst = []; // boards to be solved list
+        let slst = [];
+        for (let k = 0; k < 10; k++) {
+          while (slst.length <= 2) {
+            let rlst = createRandomList(Math.floor(board_size - (Math.random() * variation)));
+            slst = SelectionSort(rlst);
+          }
+          btdslst.push(slst);
+        }
+        boardsToSolve.current = ([...boardsToSolve.current, ...btdslst]);
+      }
+    }
+    console.log(boardsToSolve.current)
+    if (userBoard !== 0) {
+      aiInterval.current = aiInterval.current - (aiInterval.current * (speed / 100))
+      setSpeed(speed => speed + speedUp);
+    }
+  }, [userBoard]);
 
   const setUpLists = useCallback(() => {
     let board_size = 0;
-    let number_to_solve = 0;
     if (difficulty === 'beginner') {
       board_size = 5;
-      number_to_solve = 10;
-      setNumberToSolve(10);
       setBoardSize(5);
-      setIntervalVariation(0);
-      aiInterval.current = 10;
-      intervalIndex.current = 10;
+      setSpeedUp(0.5);
+      aiInterval.current = 30;
+      intervalIndex.current = 30;
     } else if (difficulty === 'normal') {
       board_size = 6;
-      number_to_solve = 20;
-      setNumberToSolve(20);
-      setBoardSize(6);
-      setIntervalVariation(2);
-      aiInterval.current = 8;
-      intervalIndex.current = 8;
+      setBoardSize(8);
+      setSpeedUp(1);
+      aiInterval.current = 30;
+      intervalIndex.current = 30;
     } else if (difficulty === 'insane') {
       board_size = 8;
-      number_to_solve = 30;
-      setNumberToSolve(30);
-      setBoardSize(8);
-      setIntervalVariation(3);
-      aiInterval.current = 5;
-      intervalIndex.current = 5;
+      setBoardSize(10);
+      setSpeedUp(5);
+      aiInterval.current = 10;
+      intervalIndex.current = 10;
     }
 
     let variation = difficulty === 'beginner' ? 0 : difficulty === 'normal' ? 2 : 3;
     if (boardType === 'bubble') {
       let btdslst = []; // boards to be solved list
-      for (let i = 0; i < number_to_solve; i++) {
+      for (let k = 0; k < 10; k++) {
         let slst = [];
-        while (slst.length <= 1) {
+        while (slst.length <= 2) {
           let rlst = createRandomList(Math.floor(board_size - (Math.random() * variation)));
           slst = BubbleSort(rlst);
         }
         btdslst.push(slst);
       }
       setSortedLists(btdslst[0]);
-      setBoardsToBeSolved(btdslst);
+      // setBoardsToBeSolved(btdslst);
+      boardsToSolve.current = btdslst;
       setRandomList(btdslst[0][0]);
       setBoardSize(btdslst[0][0].length)
     } else if (boardType === 'insertion') {
       let btdslst = []; // boards to be solved list
-      for (let i = 0; i < number_to_solve; i++) {
+      for (let k = 0; k < 10; k++) {
         let slst = [];
-        while (slst.length <= 1) {
+        while (slst.length <= 2) {
           let rlst = createRandomList(Math.floor(board_size - (Math.random() * variation)));
           slst = InsertionSort(rlst);
         }
         btdslst.push(slst);
       }
       setSortedLists(btdslst[0]);
-      setBoardsToBeSolved(btdslst);
+      // setBoardsToBeSolved(btdslst);
+      boardsToSolve.current = btdslst;
       setRandomList(btdslst[0][0]);
-      setBoardSize(btdslst[0][0].length)
+      setBoardSize(btdslst[0][0].length);
     } else if (boardType === 'selection') {
       let btdslst = []; // boards to be solved list
-
-      for (let i = 0; i < number_to_solve; i++) {
-        let slst = [];
-        while (slst.length <= 1) {
+      let slst = [];
+      for (let k = 0; k < 10; k++) {
+        while (slst.length <= 2) {
           let rlst = createRandomList(Math.floor(board_size - (Math.random() * variation)));
           slst = SelectionSort(rlst);
         }
         btdslst.push(slst);
       }
       setSortedLists(btdslst[0]);
-      setBoardsToBeSolved(btdslst);
+      // setBoardsToBeSolved(btdslst);
+      boardsToSolve.current = btdslst;
       setRandomList(btdslst[0][0]);
       setBoardSize(btdslst[0][0].length)
     }
@@ -183,21 +208,16 @@ export default function AgainstAi(props) {
     setTimer(0);
     setRandomList([]);
     setSortedLists([]);
-    setBoardsToBeSolved([]);
+    // setBoardsToBeSolved([]);
+    boardsToSolve.current = [];
     clearInterval(interval.current);
     setUpLists();
   }
 
   function getRandomString() {
-    if (aiSolved === true && userSolved === false) {
-      return 'You Lost!';
-    } else if (aiSolved === false && userSolved === true) {
-      return 'You Won!';
-    } else if (aiSolved === true && userSolved === true) {
-      return 'Tie!';
-    } else {
-      return 'Game Over!';
-    }
+    let random_strings = ["The bot has solved all the boards!", "The bot has bested you!", "Kneel before your bot god!", "Better luck next time, champ!", "Surely you can do better than that!"]
+    let random_index = Math.floor(Math.random() * random_strings.length);
+    return random_strings[random_index];
   }
 
   return (
@@ -207,7 +227,7 @@ export default function AgainstAi(props) {
           <h1>Difficulty: {difficulty === "beginner" ? "Beginner" : difficulty === "normal" ? "Normal" : "Insane"}</h1>
           <h2>Board Type: {boardType === "bubble" ? "Bubble Sort" : boardType === "insertion" ? "Insertion Sort" : "Selection Sort"}</h2>
         </div>
-        {aiSolved === true || userSolved === true ? (<div className={styles.end_container}>
+        {aiSolved === true ? (<div className={styles.end_container}>
           <h1>{getRandomString()}</h1>
           <h2>AI Score: {aiScore}</h2>
           <h2>Your Score: {userScore}</h2>
@@ -215,19 +235,22 @@ export default function AgainstAi(props) {
           <button className={styles.back_btn} onClick={() => window.location.reload(false)}>New Game</button>
           <button className={styles.back_btn} onClick={() => handleCancel()}>Restart</button>
         </div>) : null}
+
         {started ? null : (<div className={styles.select_container}> <button className={styles.select_btn} onClick={() => setStarted(true)}>Start</button> </div>)}
         {started ? null : (<div className={styles.select_container}> <button className={styles.back_btn} onClick={() => window.location.reload(false)}>Cancel</button> </div>)}
-        {started === true && sortedLists && sortedLists.length !== 0 ? (<div>{timer}</div>) : null}
+        {started === true && sortedLists && sortedLists.length !== 0 ? (<div> Speedup: {speed.toFixed(2)} % </div>) : null}
+        {started === true && sortedLists && sortedLists.length !== 0 ? (<div> Current Speed: {aiInterval.current.toFixed(2)} s </div>) : null}
+        {started === true && sortedLists && sortedLists.length !== 0 ? (<div>Timer: {timer} s</div>) : null}
         {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.boards_container}>
           <div className={styles.board}>
             <h1>Your Board</h1>
             <h2>Your Score: {userScore}</h2>
-            <CompeteBoard draggable={true} boardSize={boardSize} difficulty={difficulty} boardType={boardType} randomList={randomList} sortedLists={sortedLists} against={'ai'} roomId={'none'} solvedBoard={[]} changeScore={setUserScore} changeBoard={setUserBoard} changeSolved={setUserSolved} boardsToBeSolved={boardsToBeSolved} />
+            <CompeteBoardEndless draggable={true} boardSize={boardSize} difficulty={difficulty} boardType={boardType} randomList={randomList} sortedLists={sortedLists} against={'ai'} roomId={'none'} solvedBoard={[]} changeScore={setUserScore} changeBoard={setUserBoard} changeSolved={setUserSolved} boardsToBeSolved={boardsToSolve} />
           </div>
           <div className={styles.board}>
             <h1>Opponent's Board</h1>
             <h2>AI Score: {aiScore}</h2>
-            <AiBoard draggable={false} timer={timer} boardSize={boardSize} difficulty={difficulty} boardType={boardType} randomList={randomList} sortedLists={sortedLists} solvedBoard={aiSolvedBoard} aiInterval={aiInterval} intervalIndex={intervalIndex} changeScore={setAiScore} changeBoard={setAiBoard} changeSolved={setAiSolved} boardsToBeSolved={boardsToBeSolved} />
+            <AiBoardEndless draggable={false} timer={timer} boardSize={boardSize} difficulty={difficulty} boardType={boardType} randomList={randomList} sortedLists={sortedLists} solvedBoard={aiSolvedBoard} aiInterval={aiInterval} intervalIndex={intervalIndex} changeScore={setAiScore} changeBoard={setAiBoard} changeSolved={setAiSolved} boardsToBeSolved={boardsToSolve} />
           </div>
         </div>) : null}
         {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.cancel_container}> <button className={styles.back_btn} onClick={() => handleCancel()}>Cancel</button> </div>) : null}
