@@ -4,6 +4,7 @@ import styles from "./Compete.module.css";
 
 import AgainstAi from "./AgainstAi";
 import AgainstAiEndless from "./AgainstAiEndless";
+import Tutorial from "../Tutorial/Tutorial";
 
 export default function Compete(props) {
   const [againstAi, setAgainstAi] = useState(true);
@@ -12,6 +13,7 @@ export default function Compete(props) {
   const [boardType, setBoardType] = useState("none"); // ['bubble', 'insertion', 'selection']
   const [showBoardType, setShowBoardType] = useState(false);
   const [showDifficulty, setShowDifficulty] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
 
   const [inGame, setInGame] = useState(false);
 
@@ -52,17 +54,24 @@ export default function Compete(props) {
       setShowDifficulty(false);
       setShowButtons(true);
     }
+    setShowTutorial(false);
   }
 
-  // function handleLeave() {
+  // function handleLeaveGame() {
   //   setInGame(false);
   //   setShowButtons(true);
-  //   setDifficulty("none");
   //   setBoardType("none");
+  //   setDifficulty("none");
   //   setShowBoardType(false);
   //   setShowDifficulty(false);
   // }
 
+  function handleFinalBack() {
+    setDifficulty("none");
+    setShowDifficulty(false);
+    setShowBoardType(true);
+    setInGame(false);
+  }
 
   return (
     <div>
@@ -80,9 +89,9 @@ export default function Compete(props) {
         )}
         {showButtons || showBoardType || showDifficulty ? null : difficulty ===
           "none" || boardType === "none" ? null : againstAi ? (
-            <AgainstAi difficulty={difficulty} boardType={boardType} userData={props.userData} handleBack={handleBack}/>
+            <AgainstAi difficulty={difficulty} boardType={boardType} userData={props.userData} handleBack={handleBack} handleFinalBack={handleFinalBack} />
           ) : (
-          <AgainstAiEndless difficulty={difficulty} boardType={boardType} userData={props.userData} handleBack={handleBack}/>
+          <AgainstAiEndless difficulty={difficulty} boardType={boardType} userData={props.userData} handleBack={handleBack} handleFinalBack={handleFinalBack} />
         )}
         {!showButtons ? null : (
           <div className={styles.select_container}>
@@ -149,6 +158,15 @@ export default function Compete(props) {
             Back
           </button>
         )}
+        {showButtons || inGame ? null : (
+          <button
+            className={styles.tutorial_btn}
+            onClick={() => setShowTutorial(!showTutorial)}
+          >
+            Tutorial
+          </button>
+        )}
+        {showTutorial ? <Tutorial /> : null}
       </div>
     </div>
   );

@@ -17,6 +17,9 @@
   --color-btn-back: #c65454;
   --color-btn-back-pressed: #8f3b3b;
   --color-btn-back-dark: rgb(139, 60, 60);
+  --color-btn-tutorial: rgb(216, 196, 107);
+  --color-btn-tutorial-dark: rgb(138, 126, 71);
+  --color-btn-tutorial-pressed: rgb(104, 94, 52);
 }
 
 body {

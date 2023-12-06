@@ -2,9 +2,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: center; */
     height: 100vh;
     margin-top: 10px;
+}
+
+.bottom_btns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .select_btn {
@@ -42,6 +48,7 @@
 .heading {
     display: flex;
     flex-direction: column;
+    text-align: center;
 }
 
 .titles {
@@ -80,6 +87,31 @@
     transform: translateY(4px);
 }
 
+.tutorial_btn {
+    width: 200px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: var(--color-btn-tutorial);
+    border: 1px solid var(--color-btn-border);
+    margin: 10px;
+    display: inline-block;
+    cursor: pointer;
+    align-items: center;
+    text-align: center;
+}
+
+.tutorial_btn:hover {
+    background-color: var(--color-btn-tutorial-dark);
+    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.tutorial_btn:active {
+    background-color: var(--color-btn-tutorial-pressed);
+    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
+    transform: translateY(4px);
+}
+
 @media screen and (min-width: 1200px) {
     .board {
         min-width: 300px;
@@ -103,6 +135,12 @@
     }
 
     .back_btn {
+        font-size: 1.25rem;
+        width: 500px;
+        height: 50px;
+    }
+
+    .tutorial_btn {
         font-size: 1.25rem;
         width: 500px;
         height: 50px;
@@ -141,6 +179,11 @@
     }
 
     .back_btn {
+        width: 150px;
+        height: 40px;
+    }
+
+    .tutorial_btn {
         width: 150px;
         height: 40px;
     }

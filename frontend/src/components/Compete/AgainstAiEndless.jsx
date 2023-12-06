@@ -82,11 +82,11 @@ export default function AgainstAi(props) {
             timestamp: Date.now(),
             difficulty: diff
           });
-          await axios.post(`https://algoracer-backend-5bed1a87253c.herokuapp.com/user/stats/${props.userData.id}`,{
+          await axios.post(`https://algoracer-backend-5bed1a87253c.herokuapp.com/user/stats/${props.userData.id}`, {
             difficulty: diff,
             time_taken: timer,
             got_score: userScore,
-          }); 
+          });
         }
         clearInterval(interval.current);
         setAiSolved(true);
@@ -263,7 +263,7 @@ export default function AgainstAi(props) {
         </div>) : null}
 
         {started ? null : (<div className={styles.select_container}> <button className={styles.select_btn} onClick={() => setStarted(true)}>Start</button> </div>)}
-        {/* {started ? null : (<div className={styles.select_container}> <button className={styles.back_btn} onClick={() => {handleCancel() }}>Cancel</button> </div>)} */}
+        {started ? null : (<div className={styles.select_container}> <button className={styles.back_btn} onClick={() => props.handleFinalBack()}>Cancel</button> </div>)}
         {started === true && sortedLists && sortedLists.length !== 0 ? (<div> Speedup: {speed.toFixed(2)} % </div>) : null}
         {started === true && sortedLists && sortedLists.length !== 0 ? (<div> Current Speed: {aiInterval.current.toFixed(2)} s </div>) : null}
         {started === true && sortedLists && sortedLists.length !== 0 ? (<div>Timer: {timer} s</div>) : null}

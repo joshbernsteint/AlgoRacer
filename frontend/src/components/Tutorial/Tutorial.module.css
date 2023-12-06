@@ -1,0 +1,250 @@
+.main {
+  background-color: var(--color-secondary-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  margin-top: 10px;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+}
+
+.text_field {
+  font-size: 1.25rem;
+}
+
+.gif {
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.gif_field {
+  background-color: var(--color-main);
+  color: var(--color-secondary);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid black;
+  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, .1);
+  width: 800px;
+}
+
+.select_btn {
+  width: 200px;
+  height: 50px;
+  border-radius: 5px;
+  background-color: var(--color-btn);
+  border: 1px solid var(--color-btn-border);
+  margin: 10px;
+  display: inline-block;
+  cursor: pointer;
+  align-items: center;
+  text-align: center;
+}
+
+.select_btn:hover {
+  background-color: var(--color-btn-dark);
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.select_btn:active {
+  background-color: var(--color-btn-pressed);
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
+  transform: translateY(4px);
+}
+
+.select_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+}
+
+.titles {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.board_type {
+  margin-left: 20px;
+}
+
+.back_btn {
+  width: 200px;
+  height: 50px;
+  border-radius: 5px;
+  background-color: var(--color-btn-back);
+  border: 1px solid var(--color-btn-border);
+  margin: 10px;
+  display: inline-block;
+  cursor: pointer;
+  align-items: center;
+  text-align: center;
+}
+
+.back_btn:hover {
+  background-color: var(--color-btn-back-dark);
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.back_btn:active {
+  background-color: var(--color-btn-back-pressed);
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
+  transform: translateY(4px);
+}
+
+.boards_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: none;
+  max-width: 2000px;
+  margin: 10px;
+}
+
+.scores {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  transition: all 0.5s ease-in-out;
+
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 50px 10px 50px;
+  padding: auto;
+  min-width: 300px;
+  max-width: 1000px;
+}
+
+.end_container {
+  background-color: var(--color-main);
+  color: var(--color-secondary);
+  z-index: 999;
+  text-align: center;
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid black;
+  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, .1);
+}
+
+@media screen and (min-width: 1200px) {
+  .board {
+    min-width: 300px;
+    max-width: 1000px;
+  }
+
+  .boards_container {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .scores {
+    margin: 10px;
+  }
+
+  .select_btn {
+    font-size: 1.25rem;
+    width: 500px;
+    height: 50px;
+  }
+
+  .back_btn {
+    font-size: 1.25rem;
+    width: 500px;
+    height: 50px;
+  }
+
+  .board_type {
+    margin-left: 20px;
+  }
+
+  .titles {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .board {
+    min-width: 200px;
+    max-width: 600px;
+  }
+
+  .boards_container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .scores {
+    margin: 10px;
+  }
+
+  .select_btn {
+    width: 150px;
+    height: 40px;
+  }
+
+  .back_btn {
+    width: 150px;
+    height: 40px;
+  }
+
+  .board_type {
+    margin-left: 10px;
+  }
+
+  .titles {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+}

@@ -219,7 +219,7 @@ export default function AgainstAi(props) {
           <button className={styles.back_btn} onClick={() => handleCancel()}>Restart</button>
         </div>) : null}
         {started ? null : (<div className={styles.select_container}> <button className={styles.select_btn} onClick={() => setStarted(true)}>Start</button> </div>)}
-        {/* {started ? null : (<div className={styles.select_container}> <button className={styles.back_btn} onClick={() => window.location.reload(false)}>Cancel</button> </div>)} */}
+        {started ? null : (<div className={styles.select_container}> <button className={styles.back_btn} onClick={() => props.handleFinalBack()}>Cancel</button> </div>)}
         {started === true && sortedLists && sortedLists.length !== 0 ? (<div>{timer}</div>) : null}
         {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.boards_container}>
           <div className={styles.board}>
