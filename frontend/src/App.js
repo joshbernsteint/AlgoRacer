@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -15,22 +15,21 @@ import Register from './components/User/Register';
 import Leaderboard from './components/Leaderboard/Leaderboard';
 
 function App() {
-  const loginData = useRef(null);
-
+  const [loginData, setLoginData] = useState(null);
   return (
     <Router>
       <div className="App">
-        <NavBar />
+        <NavBar userData={loginData} setLogin={setLoginData}/>
         <div className="content">
           <Routes>
-            <Route exact path="/" element={<Home userData={loginData}/>} />
-            <Route path="/learn" element={<Learn userData={loginData}/>} />
-            <Route path="/practice" element={<Practice userData={loginData}/>} />
-            <Route path="/compete" element={<Compete userData={loginData}/>} />
-            <Route path="/about" element={<About userData={loginData}/>} />
-            <Route path="/login" element={<Login userData={loginData}/>} />
-            <Route path="/register" element={<Register userData={loginData}/>} />
-            <Route path="/leaderboards" element={<Leaderboard userData={loginData}/>} />
+            <Route exact path="/" element={<Home userData={loginData} setLogin={setLoginData}/>} />
+            <Route path="/learn" element={<Learn userData={loginData} setLogin={setLoginData}/>} />
+            <Route path="/practice" element={<Practice userData={loginData} setLogin={setLoginData}/>} />
+            <Route path="/compete" element={<Compete userData={loginData} setLogin={setLoginData}/>} />
+            <Route path="/about" element={<About userData={loginData} setLogin={setLoginData}/>} />
+            <Route path="/login" element={<Login userData={loginData} setLogin={setLoginData}/>} />
+            <Route path="/register" element={<Register userData={loginData} setLogin={setLoginData}/>} />
+            <Route path="/leaderboards" element={<Leaderboard userData={loginData} setLogin={setLoginData}/>} />
           </Routes>
         </div>
       </div>

@@ -7,7 +7,7 @@ router.post('/add/:id/', async (req, res) => {
         const result = await leaderboardFunctions.addToLeaderboard(req.params.id, body.name,body.time_taken, body.got_score, body.timestamp, body.difficulty);
         res.json({added: true});
     } catch (error) {
-        res.status(400).json({error: error.toString()});
+        res.status(200).json({error: error.toString()});
     }
 });
 
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
         res.json(all);
     } catch (error) {
         console.log(error.toString());
-        res.status(400).json({error: error.toString()});
+        res.status(200).json({error: error.toString()});
     }
 });
 
@@ -26,7 +26,7 @@ router.get('/:diff', async (req,res) => {
         const leaderboard = await leaderboardFunctions.getLeaderboardByName(req.params.diff);
         res.json(leaderboard);
     } catch (error) {
-        res.status(400).json({error: error.toString()});
+        res.status(200).json({error: error.toString()});
     }
 });
 

@@ -1,0 +1,16 @@
+#error_msg{
+    color: red;
+}
+
+
+form{
+    padding: 2rem;
+}
+
+.input{
+    padding: .2rem;
+}
+
+label{
+    width: 120px;
+}

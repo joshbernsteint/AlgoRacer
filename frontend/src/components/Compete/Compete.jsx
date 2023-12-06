@@ -5,7 +5,7 @@ import styles from "./Compete.module.css";
 import AgainstAi from "./AgainstAi";
 import AgainstAiEndless from "./AgainstAiEndless";
 
-export default function Compete() {
+export default function Compete(props) {
   const [againstAi, setAgainstAi] = useState(true);
   const [showButtons, setShowButtons] = useState(true);
   const [difficulty, setDifficulty] = useState("none"); // ['beginner', 'normal', 'insane']
@@ -63,6 +63,8 @@ export default function Compete() {
   //   setShowDifficulty(false);
   // }
 
+  console.log(props.userData);
+
   return (
     <div>
       <div className={styles.main}>
@@ -79,9 +81,9 @@ export default function Compete() {
         )}
         {showButtons || showBoardType || showDifficulty ? null : difficulty ===
           "none" || boardType === "none" ? null : againstAi ? (
-            <AgainstAi difficulty={difficulty} boardType={boardType} />
+            <AgainstAi difficulty={difficulty} boardType={boardType} userData={props.userData} handleBack={handleBack}/>
           ) : (
-          <AgainstAiEndless difficulty={difficulty} boardType={boardType} />
+          <AgainstAiEndless difficulty={difficulty} boardType={boardType} userData={props.userData} handleBack={handleBack}/>
         )}
         {!showButtons ? null : (
           <div className={styles.select_container}>

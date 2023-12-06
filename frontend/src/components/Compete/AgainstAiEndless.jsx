@@ -2,10 +2,13 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 import styles from './Compete.module.css';
 
+import axios from 'axios';
+
 import CompeteBoardEndless from '../GameBoards/Endless/CompeteBoardEndless';
 import AiBoardEndless from '../GameBoards/Endless/AiBoardEndless';
 
 import { BubbleSort, InsertionSort, SelectionSort } from '../../algos/Algos';
+import { useNavigate } from 'react-router-dom';
 
 export default function AgainstAi(props) {
 
@@ -68,10 +71,22 @@ export default function AgainstAi(props) {
   }, [timer]);
 
   useEffect(() => {
-    if (aiBoard > userBoard) {
-      clearInterval(interval.current);
-      setAiSolved(true);
+    async function sendData(){
+      if (aiBoard > userBoard){
+        if(props.userData){
+          const {data} = await axios.post(`/leaderboard/add/${props.userData.id}`,{
+            name: boardType === "bubble" ? "Bubble Sort" : boardType === "insertion" ? "Insertion Sort" : "Selection Sort",
+            time_taken: timer,
+            got_score: userScore,
+            timestamp: Date.now(),
+            difficulty: difficulty.charAt(0).toUpperCase() + difficulty.slice(1)
+          });
+        }
+        clearInterval(interval.current);
+        setAiSolved(true);
+      }
     }
+    sendData();
   }, [aiBoard, userBoard]);
 
   useEffect(() => {
@@ -113,10 +128,10 @@ export default function AgainstAi(props) {
         boardsToSolve.current = ([...boardsToSolve.current, ...btdslst]);
       }
     }
-    console.log(boardsToSolve.current)
     if (userBoard !== 0) {
-      aiInterval.current = aiInterval.current - (aiInterval.current * (speed / 100))
-      setSpeed(speed => speed + speedUp);
+      const useSpeed = speed + speedUp;
+      aiInterval.current = aiInterval.current - (aiInterval.current * (useSpeed / 100))
+      setSpeed(useSpeed);
     }
   }, [userBoard]);
 
@@ -132,14 +147,14 @@ export default function AgainstAi(props) {
       board_size = 6;
       setBoardSize(8);
       setSpeedUp(1);
-      aiInterval.current = 30;
-      intervalIndex.current = 30;
+      aiInterval.current = 20;
+      intervalIndex.current = 20;
     } else if (difficulty === 'insane') {
       board_size = 8;
       setBoardSize(10);
-      setSpeedUp(5);
-      aiInterval.current = 10;
-      intervalIndex.current = 10;
+      setSpeedUp(10);
+      aiInterval.current = 1;
+      intervalIndex.current = 1;
     }
 
     let variation = difficulty === 'beginner' ? 0 : difficulty === 'normal' ? 2 : 3;
@@ -208,6 +223,8 @@ export default function AgainstAi(props) {
     setTimer(0);
     setRandomList([]);
     setSortedLists([]);
+    setSpeed(0);
+    setSpeedUp(0);
     // setBoardsToBeSolved([]);
     boardsToSolve.current = [];
     clearInterval(interval.current);
@@ -219,6 +236,9 @@ export default function AgainstAi(props) {
     let random_index = Math.floor(Math.random() * random_strings.length);
     return random_strings[random_index];
   }
+
+  // console.log(props.userData);
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -232,12 +252,12 @@ export default function AgainstAi(props) {
           <h2>AI Score: {aiScore}</h2>
           <h2>Your Score: {userScore}</h2>
           <h2>Time: {timer} seconds</h2>
-          <button className={styles.back_btn} onClick={() => window.location.reload(false)}>New Game</button>
+          <button className={styles.back_btn} onClick={() => {navigate("/compete");handleCancel()}}>New Game</button>
           <button className={styles.back_btn} onClick={() => handleCancel()}>Restart</button>
         </div>) : null}
 
         {started ? null : (<div className={styles.select_container}> <button className={styles.select_btn} onClick={() => setStarted(true)}>Start</button> </div>)}
-        {started ? null : (<div className={styles.select_container}> <button className={styles.back_btn} onClick={() => window.location.reload(false)}>Cancel</button> </div>)}
+        {/* {started ? null : (<div className={styles.select_container}> <button className={styles.back_btn} onClick={() => {handleCancel() }}>Cancel</button> </div>)} */}
         {started === true && sortedLists && sortedLists.length !== 0 ? (<div> Speedup: {speed.toFixed(2)} % </div>) : null}
         {started === true && sortedLists && sortedLists.length !== 0 ? (<div> Current Speed: {aiInterval.current.toFixed(2)} s </div>) : null}
         {started === true && sortedLists && sortedLists.length !== 0 ? (<div>Timer: {timer} s</div>) : null}
@@ -253,7 +273,7 @@ export default function AgainstAi(props) {
             <AiBoardEndless draggable={false} timer={timer} boardSize={boardSize} difficulty={difficulty} boardType={boardType} randomList={randomList} sortedLists={sortedLists} solvedBoard={aiSolvedBoard} aiInterval={aiInterval} intervalIndex={intervalIndex} changeScore={setAiScore} changeBoard={setAiBoard} changeSolved={setAiSolved} boardsToBeSolved={boardsToSolve} />
           </div>
         </div>) : null}
-        {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.cancel_container}> <button className={styles.back_btn} onClick={() => handleCancel()}>Cancel</button> </div>) : null}
+        {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.cancel_container}> <button className={styles.back_btn} onClick={() => {handleCancel();props.handleBack()}}>Cancel</button> </div>) : null}
       </div>
     </div>
   )

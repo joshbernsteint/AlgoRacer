@@ -2,8 +2,10 @@
 import { Link } from 'react-router-dom';
 
 import styles from './Navbar.module.css';
+import axios from 'axios'
 
-export default function NavBar() {
+export default function NavBar(props) {
+  console.log(props.userData);
   return (
     <div>
       <div className={styles.nav}>
@@ -13,6 +15,9 @@ export default function NavBar() {
           <Link to="/compete" className={styles.nav_btn}>Play</Link>
           <Link to="/learn" className={styles.nav_btn}>Learn</Link>
           <Link to="/leaderboards" className={styles.nav_btn}>Leaderboards</Link>
+          {
+            (props.userData == null) ? (<Link to="/login" className={styles.nav_btn}>Login</Link>): (<Link onClick={async () => {const {data} = await axios.get("/logout"); if(data.loggedOut){props.setLogin(undefined)}}} className={styles.nav_btn}>Logout</Link>)
+          }
         </div>
       </div>
     </div>
