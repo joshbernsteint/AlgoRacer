@@ -73,14 +73,20 @@ export default function AgainstAi(props) {
   useEffect(() => {
     async function sendData() {
       if (aiBoard > userBoard) {
+        const diff = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
         if (props.userData) {
           const { data } = await axios.post(`https://algoracer-backend-5bed1a87253c.herokuapp.com/leaderboard/add/${props.userData.id}`, {
             name: boardType === "bubble" ? "Bubble Sort" : boardType === "insertion" ? "Insertion Sort" : "Selection Sort",
             time_taken: timer,
             got_score: userScore,
             timestamp: Date.now(),
-            difficulty: difficulty.charAt(0).toUpperCase() + difficulty.slice(1)
+            difficulty: diff
           });
+          await axios.post(`https://algoracer-backend-5bed1a87253c.herokuapp.com/user/stats/${props.userData.id}`,{
+            difficulty: diff,
+            time_taken: timer,
+            got_score: userScore,
+          }); 
         }
         clearInterval(interval.current);
         setAiSolved(true);

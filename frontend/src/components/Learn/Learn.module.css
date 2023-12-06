@@ -5,3 +5,16 @@
     justify-content: center;
     height: 100vh;
 }
+
+#learn_col{
+    padding: 2rem;
+    width: 200px;
+}
+
+.learn{
+    padding: 1rem;
+}
+
+.learn_head{
+    text-align: center;
+}
