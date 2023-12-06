@@ -6,6 +6,7 @@ import CompeteBoard from '../GameBoards/CompeteBoard';
 import AiBoard from '../GameBoards/AiBoard';
 
 import { BubbleSort, InsertionSort, SelectionSort } from '../../algos/Algos';
+import { useNavigate } from 'react-router-dom';
 
 export default function AgainstAi(props) {
 
@@ -200,6 +201,8 @@ export default function AgainstAi(props) {
     }
   }
 
+  const navigate = useNavigate();
+
   return (
     <div>
       <div className={styles.main}>
@@ -212,11 +215,11 @@ export default function AgainstAi(props) {
           <h2>AI Score: {aiScore}</h2>
           <h2>Your Score: {userScore}</h2>
           <h2>Time: {timer} seconds</h2>
-          <button className={styles.back_btn} onClick={() => window.location.reload(false)}>New Game</button>
+          <button className={styles.back_btn} onClick={() => {navigate("/compete");handleCancel()}}>New Game</button>
           <button className={styles.back_btn} onClick={() => handleCancel()}>Restart</button>
         </div>) : null}
         {started ? null : (<div className={styles.select_container}> <button className={styles.select_btn} onClick={() => setStarted(true)}>Start</button> </div>)}
-        {started ? null : (<div className={styles.select_container}> <button className={styles.back_btn} onClick={() => window.location.reload(false)}>Cancel</button> </div>)}
+        {/* {started ? null : (<div className={styles.select_container}> <button className={styles.back_btn} onClick={() => window.location.reload(false)}>Cancel</button> </div>)} */}
         {started === true && sortedLists && sortedLists.length !== 0 ? (<div>{timer}</div>) : null}
         {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.boards_container}>
           <div className={styles.board}>
