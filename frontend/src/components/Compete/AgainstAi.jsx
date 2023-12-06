@@ -215,7 +215,7 @@ export default function AgainstAi(props) {
           <h2>AI Score: {aiScore}</h2>
           <h2>Your Score: {userScore}</h2>
           <h2>Time: {timer} seconds</h2>
-          <button className={styles.back_btn} onClick={() => {navigate("/compete");handleCancel()}}>New Game</button>
+          <button className={styles.back_btn} onClick={() => { navigate("/compete"); handleCancel() }}>New Game</button>
           <button className={styles.back_btn} onClick={() => handleCancel()}>Restart</button>
         </div>) : null}
         {started ? null : (<div className={styles.select_container}> <button className={styles.select_btn} onClick={() => setStarted(true)}>Start</button> </div>)}
@@ -233,7 +233,7 @@ export default function AgainstAi(props) {
             <AiBoard draggable={false} timer={timer} boardSize={boardSize} difficulty={difficulty} boardType={boardType} randomList={randomList} sortedLists={sortedLists} solvedBoard={aiSolvedBoard} aiInterval={aiInterval} intervalIndex={intervalIndex} changeScore={setAiScore} changeBoard={setAiBoard} changeSolved={setAiSolved} boardsToBeSolved={boardsToBeSolved} />
           </div>
         </div>) : null}
-        {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.cancel_container}> <button className={styles.back_btn} onClick={() => handleCancel()}>Cancel</button> </div>) : null}
+        {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.cancel_container}> <button className={styles.back_btn} onClick={() => { handleCancel(); props.handleBack() }}>Cancel</button> </div>) : null}
       </div>
     </div>
   )

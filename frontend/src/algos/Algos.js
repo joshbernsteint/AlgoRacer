@@ -55,7 +55,7 @@ function SelectionSort(rlst) {
   for (i = 0; i < arr.length - 1; i++) {
     // Find the minimum element in unsorted array
     min_idx = i;
-    for (j = i + 1; j < navigator; j++) {
+    for (j = i + 1; j < arr.length - 1; j++) {
       if (arr[j] < arr[min_idx]) {
         min_idx = j;
       }
@@ -74,7 +74,7 @@ function SelectionSort(rlst) {
 //   InsertionSort: InsertionSort,
 //   SelectionSort: SelectionSort
 // };
-export{
+export {
   BubbleSort,
   InsertionSort,
   SelectionSort

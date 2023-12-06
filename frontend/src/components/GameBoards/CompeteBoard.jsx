@@ -5,31 +5,30 @@ import { SortableContext, horizontalListSortingStrategy, sortableKeyboardCoordin
 import SortableItem from './SortableItem';
 import NonSortableItem from './NonSortableItem';
 
+/*
+props: {
+  boardSize: int
+  difficulty: string
+  boardType: string
+  randomList: list
+  sortedLists: list of lists
+  solvedBoard: list of lists
+  changeScore: function
+  changeBoard: function
+  draggable: boolean
+  against: string
+  roomId: string
+  boardsToBeSolved: list of lists
+  solvedBoard: list of lists
+}
+*/
 export default function CompeteBoard(props) {
-  /*
-  props: {
-    boardSize: int
-    difficulty: string
-    boardType: string
-    randomList: list
-    sortedLists: list of lists
-    solvedBoard: list of lists
-    changeScore: function
-    changeBoard: function
-    draggable: boolean
-    against: string
-    roomId: string
-    boardsToBeSolved: list of lists
-    solvedBoard: list of lists
-  }
-  */
   const [sortedLists, setSortedLists] = useState(props.sortedLists);
   const [indexToSolve, setIndexToSolve] = useState(1);
   const [randomList, setRandomList] = useState(props.randomList);
   const [currentList, setCurrentList] = useState([]);
   const [currentListObj, setCurrentListObj] = useState([]);
   const [mergeList, setMergeList] = useState([]);
-  const [mode, setMode] = useState(props.mode);
 
   const [boardStyle, setBoardStyle] = useState({
     width: (props.boardSize * 80 + (props.boardSize - 1) * 5) + 'px',
@@ -44,8 +43,6 @@ export default function CompeteBoard(props) {
 
   const [done, setDone] = useState(false);
 
-  const [againstWho, setAgainstWho] = useState(props.against); // ['ai', 'player']
-
   const setUpBoard = useCallback(() => {
     setCurrentList(sortedLists[indexToSolve]);
     let obj = mergeCurrMergeLsts(randomList);
@@ -55,7 +52,6 @@ export default function CompeteBoard(props) {
   }, []);
 
   const updateBoard = useCallback((boards) => {
-    // console.log('boards: ', boards, 'boardsToBeSolved: ', boardsToBeSolved[boards]);
     setCurrentList(boardsToBeSolved[boards][indexToSolve]);
     let obj = mergeCurrMergeLsts(boardsToBeSolved[boards][0]);
     setRandomList(boardsToBeSolved[boards][0]);
@@ -109,7 +105,6 @@ export default function CompeteBoard(props) {
 
       if (isCorrect) {
         if (indexToSolve === sortedLists.length - 1) {
-          // alert("You win!");
           let boards = boardsSolved + 1;
           if (boards >= boardsToBeSolved.length) {
             setDone(true);
@@ -136,7 +131,6 @@ export default function CompeteBoard(props) {
             props.changeBoard(boards);
             updateBoard(boards);
           }
-          // console.log('boards: ', boards, 'boardsSolved: ', boardsToBeSolved[boards]);
         } else {
           setSolvedBoard([...solvedBoard, currentList]);
           setCurrentList(sortedLists[indexToSolve + 1]);
@@ -171,8 +165,6 @@ export default function CompeteBoard(props) {
               newIndex = i;
             }
           }
-          // console.log("oldIndex: ", oldIndex);
-          // console.log("newIndex: ", newIndex);
           return arrayMove(currentListObj, oldIndex, newIndex);
         });
       }

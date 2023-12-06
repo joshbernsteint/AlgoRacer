@@ -28,13 +28,13 @@ export default function Register(props) {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    const {data} = await axios.post("/register", {emailAddress: email, password: password, displayName: username});
-    if(data.error){
+    const { data } = await axios.post("https://algoracer-backend-5bed1a87253c.herokuapp.com/register", { emailAddress: email, password: password, displayName: username });
+    if (data.error) {
       errorRef.current.innerHTML = `X ${data.error}`;
     }
-    else{
+    else {
       errorRef.current.innerHTML = "";
-      props.setLogin({id: data.id, displayName: data.displayName});
+      props.setLogin({ id: data.id, displayName: data.displayName });
       navigate("/");
     }
   }

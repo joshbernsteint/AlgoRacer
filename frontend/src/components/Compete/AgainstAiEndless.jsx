@@ -71,10 +71,10 @@ export default function AgainstAi(props) {
   }, [timer]);
 
   useEffect(() => {
-    async function sendData(){
-      if (aiBoard > userBoard){
-        if(props.userData){
-          const {data} = await axios.post(`/leaderboard/add/${props.userData.id}`,{
+    async function sendData() {
+      if (aiBoard > userBoard) {
+        if (props.userData) {
+          const { data } = await axios.post(`https://algoracer-backend-5bed1a87253c.herokuapp.com/leaderboard/add/${props.userData.id}`, {
             name: boardType === "bubble" ? "Bubble Sort" : boardType === "insertion" ? "Insertion Sort" : "Selection Sort",
             time_taken: timer,
             got_score: userScore,
@@ -252,7 +252,7 @@ export default function AgainstAi(props) {
           <h2>AI Score: {aiScore}</h2>
           <h2>Your Score: {userScore}</h2>
           <h2>Time: {timer} seconds</h2>
-          <button className={styles.back_btn} onClick={() => {navigate("/compete");handleCancel()}}>New Game</button>
+          <button className={styles.back_btn} onClick={() => { navigate("/compete"); handleCancel() }}>New Game</button>
           <button className={styles.back_btn} onClick={() => handleCancel()}>Restart</button>
         </div>) : null}
 
@@ -273,7 +273,7 @@ export default function AgainstAi(props) {
             <AiBoardEndless draggable={false} timer={timer} boardSize={boardSize} difficulty={difficulty} boardType={boardType} randomList={randomList} sortedLists={sortedLists} solvedBoard={aiSolvedBoard} aiInterval={aiInterval} intervalIndex={intervalIndex} changeScore={setAiScore} changeBoard={setAiBoard} changeSolved={setAiSolved} boardsToBeSolved={boardsToSolve} />
           </div>
         </div>) : null}
-        {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.cancel_container}> <button className={styles.back_btn} onClick={() => {handleCancel();props.handleBack()}}>Cancel</button> </div>) : null}
+        {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.cancel_container}> <button className={styles.back_btn} onClick={() => { handleCancel(); props.handleBack() }}>Cancel</button> </div>) : null}
       </div>
     </div>
   )

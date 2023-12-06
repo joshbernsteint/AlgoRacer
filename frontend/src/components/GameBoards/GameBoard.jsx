@@ -155,21 +155,24 @@ export default function GameBoard(props) {
 
   function handleDragEnd(event) {
     const { active, over } = event;
+    if (!over || !active) {
+      return;
+    } else {
+      if (active.id !== over.id) {
+        setCurrentListObj((currentListObj) => {
+          let oldIndex = 0;
+          let newIndex = 0;
 
-    if (active.id !== over.id) {
-      setCurrentListObj((currentListObj) => {
-        let oldIndex = 0;
-        let newIndex = 0;
-
-        for (let i = 0; i < currentListObj.length; i++) {
-          if (currentListObj[i].id === active.id) {
-            oldIndex = i;
-          } else if (currentListObj[i].id === over.id) {
-            newIndex = i;
+          for (let i = 0; i < currentListObj.length; i++) {
+            if (currentListObj[i].id === active.id) {
+              oldIndex = i;
+            } else if (currentListObj[i].id === over.id) {
+              newIndex = i;
+            }
           }
-        }
-        return arrayMove(currentListObj, oldIndex, newIndex);
-      });
+          return arrayMove(currentListObj, oldIndex, newIndex);
+        });
+      }
     }
   }
 
