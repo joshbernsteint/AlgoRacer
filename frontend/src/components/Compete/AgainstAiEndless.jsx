@@ -9,6 +9,7 @@ import AiBoardEndless from '../GameBoards/Endless/AiBoardEndless';
 
 import { BubbleSort, InsertionSort, SelectionSort } from '../../algos/Algos';
 import { useNavigate } from 'react-router-dom';
+import Tutorial from '../Tutorial/Tutorial';
 
 export default function AgainstAi(props) {
 
@@ -23,9 +24,8 @@ export default function AgainstAi(props) {
   const [boardSize, setBoardSize] = useState(5);
   const [randomList, setRandomList] = useState([]);
   const [sortedLists, setSortedLists] = useState([]);
-  const [boardsToBeSolved, setBoardsToBeSolved] = useState([]);
 
-  const [intervalVariation, setIntervalVariation] = useState(0); // [0, 2, 3]
+  const [showTutorial, setShowTutorial] = useState(false);
 
   const [timer, setTimer] = useState(0);
 
@@ -175,7 +175,6 @@ export default function AgainstAi(props) {
         btdslst.push(slst);
       }
       setSortedLists(btdslst[0]);
-      // setBoardsToBeSolved(btdslst);
       boardsToSolve.current = btdslst;
       setRandomList(btdslst[0][0]);
       setBoardSize(btdslst[0][0].length)
@@ -190,7 +189,6 @@ export default function AgainstAi(props) {
         btdslst.push(slst);
       }
       setSortedLists(btdslst[0]);
-      // setBoardsToBeSolved(btdslst);
       boardsToSolve.current = btdslst;
       setRandomList(btdslst[0][0]);
       setBoardSize(btdslst[0][0].length);
@@ -205,7 +203,6 @@ export default function AgainstAi(props) {
         btdslst.push(slst);
       }
       setSortedLists(btdslst[0]);
-      // setBoardsToBeSolved(btdslst);
       boardsToSolve.current = btdslst;
       setRandomList(btdslst[0][0]);
       setBoardSize(btdslst[0][0].length)
@@ -243,7 +240,10 @@ export default function AgainstAi(props) {
     return random_strings[random_index];
   }
 
-  // console.log(props.userData);
+  function handleHelp() {
+    setShowTutorial(!showTutorial);
+  }
+
   const navigate = useNavigate();
 
   return (
@@ -253,6 +253,16 @@ export default function AgainstAi(props) {
           <h1>Difficulty: {difficulty === "beginner" ? "Beginner" : difficulty === "normal" ? "Normal" : "Insane"}</h1>
           <h2>Board Type: {boardType === "bubble" ? "Bubble Sort" : boardType === "insertion" ? "Insertion Sort" : "Selection Sort"}</h2>
         </div>
+        <div className={styles.top_btns}>
+          {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.cancel_container}> <button className={styles.help_btn} onClick={() => { handleHelp() }}>Help</button> </div>) : null}
+          {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.cancel_container}> <button className={styles.cancel_btn} onClick={() => { handleCancel(); props.handleBack() }}>Cancel</button> </div>) : null}
+        </div>
+        {!showTutorial ? null : <div className={styles.tutorial}>
+          <button className={styles.close_tut_btn} onClick={() => handleHelp()}>
+            Close
+          </button>
+          <Tutorial />
+        </div>}
         {aiSolved === true ? (<div className={styles.end_container}>
           <h1>{getRandomString()}</h1>
           <h2>AI Score: {aiScore}</h2>

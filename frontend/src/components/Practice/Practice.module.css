@@ -24,12 +24,12 @@
     cursor: pointer;
     align-items: center;
     text-align: center;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .select_btn:hover {
     background-color: var(--color-btn-dark);
     box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
-    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .select_btn:active {
@@ -73,12 +73,12 @@
     cursor: pointer;
     align-items: center;
     text-align: center;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .back_btn:hover {
     background-color: var(--color-btn-back-dark);
     box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
-    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .back_btn:active {
@@ -98,12 +98,13 @@
     cursor: pointer;
     align-items: center;
     text-align: center;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .tutorial_btn:hover {
     background-color: var(--color-btn-tutorial-dark);
     box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
-    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    transition: box-shadow 0.2s ease-in-out;
 }
 
 .tutorial_btn:active {

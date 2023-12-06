@@ -52,7 +52,6 @@ export default function AiBoardEndless(props) {
   }, []);
 
   const updateBoard = useCallback((boards) => {
-    console.log('AI', 'boards: ', boards, 'boardsToBeSolved: ', boardsToBeSolved.current[boards]);
     setCurrentList(boardsToBeSolved.current[boards][indexToSolve]);
     let obj = mergeCurrMergeLsts(boardsToBeSolved.current[boards][0]);
     setRandomList(boardsToBeSolved.current[boards][0]);

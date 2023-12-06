@@ -29,6 +29,7 @@ export default function CompeteBoard(props) {
   const [currentList, setCurrentList] = useState([]);
   const [currentListObj, setCurrentListObj] = useState([]);
   const [mergeList, setMergeList] = useState([]);
+  const [moves, setMoves] = useState(0);
 
   const [boardStyle, setBoardStyle] = useState({
     width: (props.boardSize * 80 + (props.boardSize - 1) * 5) + 'px',
@@ -103,7 +104,7 @@ export default function CompeteBoard(props) {
         }
       }
 
-      if (isCorrect) {
+      if (isCorrect && moves !== 0) {
         if (indexToSolve === sortedLists.length - 1) {
           let boards = boardsSolved + 1;
           if (boards >= boardsToBeSolved.length) {
@@ -115,6 +116,7 @@ export default function CompeteBoard(props) {
             setCurrentList([]);
             setCurrentListObj([]);
             setMergeList([]);
+            setMoves(0);
             props.changeScore(boards);
             setBoardsSolved(boards);
             props.changeBoard(boards);
@@ -126,6 +128,7 @@ export default function CompeteBoard(props) {
             setCurrentList([]);
             setCurrentListObj([]);
             setMergeList([]);
+            setMoves(0);
             props.changeScore(boards);
             setBoardsSolved(boards);
             props.changeBoard(boards);
@@ -153,6 +156,7 @@ export default function CompeteBoard(props) {
     if (!over || !active) {
       return;
     } else {
+      setMoves(moves => moves + 1);
       if (active.id !== over.id) {
         setCurrentListObj((currentListObj) => {
           let oldIndex = 0;

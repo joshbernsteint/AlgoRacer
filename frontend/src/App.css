@@ -25,12 +25,12 @@
   cursor: pointer;
   align-items: center;
   text-align: center;
+  transition: background-color 0.5s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .game_piece:hover {
   background-color: var(--color-btn-dark);
   box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
-  transition: background-color 0.5s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .game_piece_done {
@@ -91,6 +91,7 @@
   position: relative;
   width: 50px;
   background-color: rgb(255, 97, 97);
+  transition: background-color 0.2s ease-in-out;
 }
 
 .reset_btn:hover {
@@ -102,6 +103,7 @@
   text-align: center;
   width: 50px;
   background-color: rgb(255, 231, 97);
+  transition: background-color 0.2s ease-in-out;
 }
 
 .keep_btn:hover {

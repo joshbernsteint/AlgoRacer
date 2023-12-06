@@ -23,6 +23,7 @@ export default function GameBoard(props) {
   });
   const [solvedBoard, setSolvedBoard] = useState([]);
   const [boardsSolved, setBoardsSolved] = useState(0);
+  const [moves, setMoves] = useState(0);
 
   const [timer, setTimer] = useState(0);
 
@@ -125,7 +126,7 @@ export default function GameBoard(props) {
         }
       }
 
-      if (isCorrect) {
+      if (isCorrect && moves !== 0) {
         if (indexToSolve === sortedLists.length - 1) {
           setSolvedBoard([]);
           setIndexToSolve(1);
@@ -135,6 +136,7 @@ export default function GameBoard(props) {
           setCurrentListObj([]);
           setMergeList([]);
           setBoardsSolved(boardsSolved + 1);
+          setMoves(0);
           setUpBoard();
         } else {
           setSolvedBoard([...solvedBoard, currentList]);
@@ -158,6 +160,7 @@ export default function GameBoard(props) {
     if (!over || !active) {
       return;
     } else {
+      setMoves(moves => moves + 1);
       if (active.id !== over.id) {
         setCurrentListObj((currentListObj) => {
           let oldIndex = 0;

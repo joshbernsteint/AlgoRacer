@@ -28,9 +28,7 @@ export default function AiBoard(props) {
   const [currentListObj, setCurrentListObj] = useState([]);
   const [mergeList, setMergeList] = useState([]);
 
-  // const [aiInterval, setAiInterval] = useState(props.aiInterval.current);
   const intervalIndex = props.intervalIndex;
-  // const [started, setStarted] = useState(false);
 
   const [boardStyle, setBoardStyle] = useState({
     width: (props.boardSize * 80 + (props.boardSize - 1) * 5) + 'px',
@@ -54,7 +52,6 @@ export default function AiBoard(props) {
   }, []);
 
   const updateBoard = useCallback((boards) => {
-    console.log('AI', 'boards: ', boards, 'boardsToBeSolved: ', boardsToBeSolved[boards]);
     setCurrentList(boardsToBeSolved[boards][indexToSolve]);
     let obj = mergeCurrMergeLsts(boardsToBeSolved[boards][0]);
     setRandomList(boardsToBeSolved[boards][0]);
@@ -130,7 +127,6 @@ export default function AiBoard(props) {
         }
       }
     }
-    // console.log('intervalIndex', intervalIndex.current, 'boardsSolved', boardsSolved);
   }, [intervalIndex.current]);
 
   useEffect(() => {
@@ -150,7 +146,6 @@ export default function AiBoard(props) {
 
       if (isCorrect) {
         if (indexToSolve === sortedLists.length - 1) {
-          // alert("You win!");
           let boards = boardsSolved + 1;
           if (boards >= boardsToBeSolved.length) {
             setDone(true);
@@ -177,7 +172,6 @@ export default function AiBoard(props) {
             props.changeBoard(boards);
             updateBoard(boards);
           }
-          // console.log('boards: ', boards, 'boardsSolved: ', boardsToBeSolved[boards]);
         } else {
           setSolvedBoard([...solvedBoard, currentList]);
           setCurrentList(sortedLists[indexToSolve + 1]);
@@ -212,8 +206,6 @@ export default function AiBoard(props) {
               newIndex = i;
             }
           }
-          // console.log("oldIndex: ", oldIndex);
-          // console.log("newIndex: ", newIndex);
           return arrayMove(currentListObj, oldIndex, newIndex);
         });
       }

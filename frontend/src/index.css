@@ -22,6 +22,12 @@
   --color-btn-tutorial-pressed: rgb(104, 94, 52);
 }
 
+html {
+  height: 100%;
+  margin: 0;
+  background-color: var(--color-secondary-light);
+}
+
 body {
   background-color: var(--color-secondary-light);
   height: 100%;

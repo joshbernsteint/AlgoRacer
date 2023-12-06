@@ -32,6 +32,7 @@ export default function Compete(props) {
   function handleDifficulty(type) {
     setDifficulty(type);
     setShowDifficulty(false);
+    setShowTutorial(false);
     setInGame(true);
   }
 
@@ -55,6 +56,7 @@ export default function Compete(props) {
       setShowButtons(true);
     }
     setShowTutorial(false);
+    setInGame(false);
   }
 
   // function handleLeaveGame() {
@@ -76,11 +78,11 @@ export default function Compete(props) {
   return (
     <div>
       <div className={styles.main}>
-        <h1 className="page_title">Play</h1>
+        {inGame ? null : <h1 className="page_title">Play</h1>}
         {!showButtons || showBoardType || showDifficulty ? null : (
           <h2 className="page_select">Select Game Mode</h2>
         )}
-        {!showButtons ? againstAi ? <h2 className="page_select">Can you beat the bot to the last board?</h2> : <h2 className="page_select">The bot keeps speeding up, how will you fare?</h2> : null}
+        {inGame ? null : !showButtons ? againstAi ? <h2 className="page_select">Can you beat the bot to the last board?</h2> : <h2 className="page_select">The bot keeps speeding up, how will you fare?</h2> : null}
         {showButtons || !showBoardType || showDifficulty ? null : (
           <h2 className="page_select">Select Board Type</h2>
         )}

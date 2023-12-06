@@ -7,6 +7,7 @@ import AiBoard from '../GameBoards/AiBoard';
 
 import { BubbleSort, InsertionSort, SelectionSort } from '../../algos/Algos';
 import { useNavigate } from 'react-router-dom';
+import Tutorial from '../Tutorial/Tutorial';
 
 export default function AgainstAi(props) {
 
@@ -22,6 +23,8 @@ export default function AgainstAi(props) {
   const [randomList, setRandomList] = useState([]);
   const [sortedLists, setSortedLists] = useState([]);
   const [boardsToBeSolved, setBoardsToBeSolved] = useState([]);
+
+  const [showTutorial, setShowTutorial] = useState(false);
 
   const [intervalVariation, setIntervalVariation] = useState(0); // [0, 2, 3]
 
@@ -79,7 +82,6 @@ export default function AgainstAi(props) {
     if (userBoard === boardsToBeSolved.length && boardsToBeSolved.length !== 0) {
       clearInterval(interval.current);
       setUserSolved(true);
-      console.log('user solved');
     }
   }, [userBoard, boardsToBeSolved]);
 
@@ -87,7 +89,6 @@ export default function AgainstAi(props) {
     if (aiBoard === boardsToBeSolved.length && boardsToBeSolved.length !== 0) {
       clearInterval(interval.current);
       setAiSolved(true);
-      console.log('ai solved');
     }
   }, [aiBoard, boardsToBeSolved]);
 
@@ -203,6 +204,10 @@ export default function AgainstAi(props) {
 
   const navigate = useNavigate();
 
+  function handleHelp() {
+    setShowTutorial(!showTutorial);
+  }
+
   return (
     <div>
       <div className={styles.main}>
@@ -210,6 +215,16 @@ export default function AgainstAi(props) {
           <h1>Difficulty: {difficulty === "beginner" ? "Beginner" : difficulty === "normal" ? "Normal" : "Insane"}</h1>
           <h2>Board Type: {boardType === "bubble" ? "Bubble Sort" : boardType === "insertion" ? "Insertion Sort" : "Selection Sort"}</h2>
         </div>
+        <div className={styles.top_btns}>
+          {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.cancel_container}> <button className={styles.help_btn} onClick={() => { handleHelp() }}>Help</button> </div>) : null}
+          {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.cancel_container}> <button className={styles.cancel_btn} onClick={() => { handleCancel(); props.handleBack() }}>Cancel</button> </div>) : null}
+        </div>
+        {!showTutorial ? null : <div className={styles.tutorial}>
+          <button className={styles.close_tut_btn} onClick={() => handleHelp()}>
+            Close
+          </button>
+          <Tutorial />
+        </div>}
         {aiSolved === true || userSolved === true ? (<div className={styles.end_container}>
           <h1>{getRandomString()}</h1>
           <h2>AI Score: {aiScore}</h2>
@@ -220,7 +235,8 @@ export default function AgainstAi(props) {
         </div>) : null}
         {started ? null : (<div className={styles.select_container}> <button className={styles.select_btn} onClick={() => setStarted(true)}>Start</button> </div>)}
         {started ? null : (<div className={styles.select_container}> <button className={styles.back_btn} onClick={() => props.handleFinalBack()}>Cancel</button> </div>)}
-        {started === true && sortedLists && sortedLists.length !== 0 ? (<div>{timer}</div>) : null}
+        {started ? null : (<Tutorial />)}
+        {started === true && sortedLists && sortedLists.length !== 0 ? (<div>Timer: {timer} s</div>) : null}
         {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.boards_container}>
           <div className={styles.board}>
             <h1>Your Board</h1>
@@ -233,7 +249,7 @@ export default function AgainstAi(props) {
             <AiBoard draggable={false} timer={timer} boardSize={boardSize} difficulty={difficulty} boardType={boardType} randomList={randomList} sortedLists={sortedLists} solvedBoard={aiSolvedBoard} aiInterval={aiInterval} intervalIndex={intervalIndex} changeScore={setAiScore} changeBoard={setAiBoard} changeSolved={setAiSolved} boardsToBeSolved={boardsToBeSolved} />
           </div>
         </div>) : null}
-        {started === true && sortedLists && sortedLists.length !== 0 ? (<div className={styles.cancel_container}> <button className={styles.back_btn} onClick={() => { handleCancel(); props.handleBack() }}>Cancel</button> </div>) : null}
+
       </div>
     </div>
   )

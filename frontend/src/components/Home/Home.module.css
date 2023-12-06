@@ -2,6 +2,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     height: 100vh;
+    padding: 20px;
+}
+
+.title {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--color-main);
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease-in-out;
+}
+
+.title:hover {
+    color: var(--color-btn);
 }

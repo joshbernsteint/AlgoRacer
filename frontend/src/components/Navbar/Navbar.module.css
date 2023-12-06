@@ -24,6 +24,7 @@
     font-weight: bold;
     outline: none;
     margin-left: 10px;
+    transition: all 0.2s ease-in-out;
 }
 
 .nav_btn:hover {
@@ -31,7 +32,6 @@
     color: var(--color-main-light);
     border: 1px solid var(--color-btn-border);
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .1);
-    transition: all 0.2s ease-in-out;
 }
 
 .nav_btn:active {
@@ -55,12 +55,12 @@
     text-shadow: 1px 1px 2px var(--color-main-dark);
     text-decoration: none;
     margin: 0 10px;
+    transition: all 0.2s ease-in-out;
 }
 
 .nav_title:hover {
     color: var(--color-main-dark);
     text-shadow: 1px 1px 2px var(--color-main);
-    transition: all 0.2s ease-in-out;
 }
 
 .nav_title:active {

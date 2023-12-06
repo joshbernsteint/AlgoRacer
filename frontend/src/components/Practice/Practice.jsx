@@ -14,9 +14,11 @@ export default function Practice() {
   function selectDifficulty() {
     return (
       <div className={styles.select_container}>
-        <button className={styles.select_btn} onClick={() => setDifficulty('beginner')}>Beginner</button>
-        <button className={styles.select_btn} onClick={() => setDifficulty('normal')}>Normal</button>
-        <button className={styles.select_btn} onClick={() => setDifficulty('insane')}>Insane</button>
+        <button className={styles.select_btn} onClick={() => {
+          setDifficulty('beginner'); setShowTutorial(false)
+        }}>Beginner</button>
+        <button className={styles.select_btn} onClick={() => { setDifficulty('normal'); setShowTutorial(false) }}>Normal</button>
+        <button className={styles.select_btn} onClick={() => { setDifficulty('insane'); setShowTutorial(false) }}>Insane</button>
       </div>
     )
   }
@@ -34,10 +36,13 @@ export default function Practice() {
   function handleBack() {
     if (boardType === 'none') {
       setBoardType('none');
+      setShowTutorial(false);
     } else if (boardType !== 'none' && difficulty === 'none') {
       setBoardType('none');
+      setShowTutorial(false);
     } else if (boardType !== 'none' && difficulty !== 'none') {
       setDifficulty('none');
+      setShowTutorial(false);
     } else {
       setBoardType('none');
       setDifficulty('none');

@@ -5,9 +5,8 @@ import styles from './Home.module.css';
 export default function Home() {
   return (
     <div>
-      <h1>Home</h1>
       <div className={styles.home}>
-        <h1>Home</h1>
+        <h1>Welcome To <span className={styles.title}>AlgoRacer</span></h1>
       </div>
     </div>
   )

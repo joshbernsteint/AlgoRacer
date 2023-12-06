@@ -9,6 +9,83 @@
     margin-top: 10px;
 }
 
+.help_btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: rgb(116, 206, 116);
+    border: 1px solid var(--color-btn-border);
+    margin: 10px;
+    display: inline-block;
+    cursor: pointer;
+    align-items: center;
+    text-align: center;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.help_btn:hover {
+    background-color: rgba(87, 153, 87, 0.8);
+    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
+}
+
+.help_btn:active {
+    background-color: rgba(87, 153, 87, 0.8);
+    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
+    transform: translateY(4px);
+
+}
+
+.close_tut_btn {
+    width: 50px;
+    height: 80px;
+    border-radius: 5px;
+    background-color: var(--color-btn-back);
+    border: 1px solid var(--color-btn-border);
+    margin: 10px;
+    display: inline-block;
+    cursor: pointer;
+    align-items: center;
+    text-align: center;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.close_tut_btn:hover {
+    background-color: var(--color-btn-back-dark);
+    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
+}
+
+.close_tut_btn:active {
+    background-color: var(--color-btn-back-pressed);
+    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
+    transform: translateY(4px);
+}
+
+.top_btns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    width: 200px;
+}
+
+.tutorial {
+    background-color: rgba(228, 228, 228, 0.767);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    z-index: 1000;
+    border: 1px solid black;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: auto;
+    height: 600px;
+    overflow: scroll;
+}
+
 .select_btn {
     width: 200px;
     height: 50px;
@@ -20,12 +97,12 @@
     cursor: pointer;
     align-items: center;
     text-align: center;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .select_btn:hover {
     background-color: var(--color-btn-dark);
     box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
-    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .select_btn:active {
@@ -68,12 +145,37 @@
     cursor: pointer;
     align-items: center;
     text-align: center;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.cancel_btn {
+    width: 100px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: var(--color-btn-back);
+    border: 1px solid var(--color-btn-border);
+    margin: 10px;
+    display: inline-block;
+    cursor: pointer;
+    align-items: center;
+    text-align: center;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.cancel_btn:hover {
+    background-color: var(--color-btn-back-dark);
+    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
+}
+
+.cancel_btn:active {
+    background-color: var(--color-btn-back-pressed);
+    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
+    transform: translateY(4px);
 }
 
 .back_btn:hover {
     background-color: var(--color-btn-back-dark);
     box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
-    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .back_btn:active {
@@ -144,12 +246,12 @@
     cursor: pointer;
     align-items: center;
     text-align: center;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .tutorial_btn:hover {
     background-color: var(--color-btn-tutorial-dark);
     box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .1);
-    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .tutorial_btn:active {
