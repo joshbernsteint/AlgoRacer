@@ -63,7 +63,6 @@ export default function Compete(props) {
   //   setShowDifficulty(false);
   // }
 
-  console.log(props.userData);
 
   return (
     <div>
