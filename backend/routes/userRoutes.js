@@ -11,7 +11,7 @@ router.post("/register", async (req, res) => {
         const body = req.body;
         const registerResult = await userFunctions.createUser(body.emailAddress, body.password, body.displayName);
         res.cookie('isLoggedIn', registerResult._id.toString());
-        res.json({id: registerResult._id.toString(), displayName: userInfo.displayName});
+        res.json({id: registerResult._id.toString(), displayName: registerResult.displayName});
     } catch (error) {
         res.status(200).json({error: error.toString()});
     }

@@ -29,7 +29,6 @@ export default function Register(props) {
     event.preventDefault()
 
     const {data} = await axios.post("/register", {emailAddress: email, password: password, displayName: username});
-    props.userData.current = data.id;
     if(data.error){
       errorRef.current.innerHTML = `X ${data.error}`;
     }

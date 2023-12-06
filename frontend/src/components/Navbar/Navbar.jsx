@@ -5,7 +5,6 @@ import styles from './Navbar.module.css';
 import axios from 'axios'
 
 export default function NavBar(props) {
-  console.log(props.userData);
   return (
     <div>
       <div className={styles.nav}>

@@ -153,8 +153,8 @@ export default function AgainstAi(props) {
       board_size = 8;
       setBoardSize(10);
       setSpeedUp(10);
-      aiInterval.current = 1;
-      intervalIndex.current = 1;
+      aiInterval.current = 10;
+      intervalIndex.current = 10;
     }
 
     let variation = difficulty === 'beginner' ? 0 : difficulty === 'normal' ? 2 : 3;
