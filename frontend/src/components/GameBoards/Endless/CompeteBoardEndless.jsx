@@ -199,7 +199,6 @@ export default function CompeteBoardEndless(props) {
     setCurrentListObj(mergeCurrMergeLsts(previousList));
     setMergeList(mergeLstIds(mergeCurrMergeLsts(previousList)));
     setCurrentList(sortedLists[indexToSolve]);
-    console.log(noDiff)
   }
 
   function formatSolvedBoard(lst, i) {
