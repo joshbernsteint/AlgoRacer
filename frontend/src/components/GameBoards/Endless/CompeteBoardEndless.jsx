@@ -105,7 +105,6 @@ export default function CompeteBoardEndless(props) {
         }
       }
 
-      console.log(isCorrect, checkLst, toBeChecked, moves)
       if ((isCorrect && moves !== 0) || (isCorrect && noDiff)) {
         setNoDiff(false);
         if (indexToSolve === sortedLists.length - 1) {
