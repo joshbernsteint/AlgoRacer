@@ -48,6 +48,7 @@ export default function Learn() {
                       <h5>Step 1</h5>
                       You have an unsorted list of numbers [6,0,3,5]. You start at the beginning of the list, and you compare 6 and 0. If 6 is larger than 0 (YES!), you swap them. Then, you compare 6 and the next element, 3. Since 6 is still larger than 3, you swap again. 
                       Lastly, you compare 6 and 5, and swap them again.
+                      <br />
                       <img src="../learn/bubble/1.png" alt="" width={"500px"}/>
                       <br />
                       At this point, the rightmost element of the list is now sorted. You now continue again from the beginning, comparing 0 and 3. Since 0 is not larger than 3, you do not swap them. 
@@ -55,6 +56,7 @@ export default function Learn() {
                       <img src="../learn/bubble/2.png" alt="" width={"500px"}/>
                       <br />
                       Now you just repeat the same steps above until everything is sorted.
+                      <br />
                       <img src="../learn/bubble/3.png" alt="" width={"500px"}/>
                       <br />
                   </div>
