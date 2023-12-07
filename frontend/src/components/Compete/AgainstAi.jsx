@@ -152,7 +152,6 @@ export default function AgainstAi(props) {
       setBoardSize(btdslst[0][0].length)
     } else if (boardType === 'selection') {
       let btdslst = []; // boards to be solved list
-
       for (let i = 0; i < number_to_solve; i++) {
         let slst = [];
         while (slst.length <= 1) {

@@ -81,8 +81,8 @@ export default function AgainstAi(props) {
                 boardType === "bubble"
                   ? "Bubble Sort"
                   : boardType === "insertion"
-                  ? "Insertion Sort"
-                  : "Selection Sort",
+                    ? "Insertion Sort"
+                    : "Selection Sort",
               time_taken: timer,
               got_score: userScore,
               timestamp: Date.now(),
@@ -138,8 +138,8 @@ export default function AgainstAi(props) {
         boardsToSolve.current = [...boardsToSolve.current, ...btdslst];
       } else if (boardType === "selection") {
         let btdslst = []; // boards to be solved list
-        let slst = [];
         for (let k = 0; k < 10; k++) {
+          let slst = [];
           while (slst.length <= 2) {
             let rlst = createRandomList(
               Math.floor(board_size - Math.random() * variation)
@@ -151,6 +151,7 @@ export default function AgainstAi(props) {
         boardsToSolve.current = [...boardsToSolve.current, ...btdslst];
       }
     }
+
     if (userBoard !== 0) {
       const useSpeed = speed + speedUp;
       aiInterval.current =
@@ -217,8 +218,8 @@ export default function AgainstAi(props) {
       setBoardSize(btdslst[0][0].length);
     } else if (boardType === "selection") {
       let btdslst = []; // boards to be solved list
-      let slst = [];
       for (let k = 0; k < 10; k++) {
+        let slst = [];
         while (slst.length <= 2) {
           let rlst = createRandomList(
             Math.floor(board_size - Math.random() * variation)
@@ -252,7 +253,6 @@ export default function AgainstAi(props) {
     setSortedLists([]);
     setSpeed(0);
     setSpeedUp(0);
-    // setBoardsToBeSolved([]);
     boardsToSolve.current = [];
     clearInterval(interval.current);
     setUpLists();
@@ -285,16 +285,16 @@ export default function AgainstAi(props) {
             {difficulty === "beginner"
               ? "Beginner"
               : difficulty === "normal"
-              ? "Normal"
-              : "Insane"}
+                ? "Normal"
+                : "Insane"}
           </h1>
           <h2>
             Board Type:{" "}
             {boardType === "bubble"
               ? "Bubble Sort"
               : boardType === "insertion"
-              ? "Insertion Sort"
-              : "Selection Sort"}
+                ? "Insertion Sort"
+                : "Selection Sort"}
           </h2>
         </div>
         <div className={styles.top_btns}>

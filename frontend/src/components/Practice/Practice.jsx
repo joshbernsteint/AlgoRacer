@@ -67,7 +67,7 @@ export default function Practice() {
           {difficulty === 'none' ? null : <GameBoard boardSize={boardSize} difficulty={difficulty} boardType={boardType} />}
           <div className={styles.bottom_btns}>
             {boardType === 'none' ? null : <button className={styles.back_btn} onClick={() => handleBack()}>Back</button>}
-            {boardType !== 'none' && difficulty !== 'none' ? null : <button className={styles.tutorial_btn} active={showTutorial} onClick={() => setShowTutorial(!showTutorial)}>Tutorial</button>}
+            {boardType !== 'none' && difficulty !== 'none' ? null : <button className={styles.tutorial_btn} onClick={() => setShowTutorial(!showTutorial)}>Tutorial</button>}
           </div>
         </div>
         {showTutorial === true ? <Tutorial /> : null}

@@ -52,10 +52,10 @@ function SelectionSort(rlst) {
   let i, j, min_idx;
 
   // One by one move boundary of unsorted subarray
-  for (i = 0; i < arr.length - 1; i++) {
+  for (i = 0; i < arr.length; i++) {
     // Find the minimum element in unsorted array
     min_idx = i;
-    for (j = i + 1; j < arr.length - 1; j++) {
+    for (j = i + 1; j < arr.length; j++) {
       if (arr[j] < arr[min_idx]) {
         min_idx = j;
       }

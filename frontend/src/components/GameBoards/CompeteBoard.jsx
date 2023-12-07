@@ -31,6 +31,8 @@ export default function CompeteBoard(props) {
   const [mergeList, setMergeList] = useState([]);
   const [moves, setMoves] = useState(0);
 
+  const [noDiff, setNoDiff] = useState(false);
+
   const [boardStyle, setBoardStyle] = useState({
     width: (props.boardSize * 80 + (props.boardSize - 1) * 5) + 'px',
     display: "grid",
@@ -104,7 +106,8 @@ export default function CompeteBoard(props) {
         }
       }
 
-      if (isCorrect && moves !== 0) {
+      if ((isCorrect && moves !== 0) || (isCorrect && noDiff)) {
+        setNoDiff(false);
         if (indexToSolve === sortedLists.length - 1) {
           let boards = boardsSolved + 1;
           if (boards >= boardsToBeSolved.length) {
@@ -193,6 +196,7 @@ export default function CompeteBoard(props) {
     } else {
       previousList = solvedBoard[solvedBoard.length - 1];
     }
+    setNoDiff(true);
     setCurrentListObj(mergeCurrMergeLsts(previousList));
     setMergeList(mergeLstIds(mergeCurrMergeLsts(previousList)));
     setCurrentList(sortedLists[indexToSolve]);

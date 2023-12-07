@@ -25,6 +25,8 @@ export default function GameBoard(props) {
   const [boardsSolved, setBoardsSolved] = useState(0);
   const [moves, setMoves] = useState(0);
 
+  const [noDiff, setNoDiff] = useState(false);
+
   const [timer, setTimer] = useState(0);
 
   const [started, setStarted] = useState(true);
@@ -126,7 +128,8 @@ export default function GameBoard(props) {
         }
       }
 
-      if (isCorrect && moves !== 0) {
+      if ((isCorrect && moves !== 0) || (isCorrect && noDiff)) {
+        setNoDiff(false);
         if (indexToSolve === sortedLists.length - 1) {
           setSolvedBoard([]);
           setIndexToSolve(1);
@@ -197,6 +200,7 @@ export default function GameBoard(props) {
     } else {
       previousList = solvedBoard[solvedBoard.length - 1];
     }
+    setNoDiff(true);
     setCurrentListObj(mergeCurrMergeLsts(previousList));
     setMergeList(mergeLstIds(mergeCurrMergeLsts(previousList)));
     setCurrentList(sortedLists[indexToSolve]);

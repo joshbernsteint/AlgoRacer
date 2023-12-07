@@ -30,6 +30,7 @@ export default function CompeteBoardEndless(props) {
   const [currentListObj, setCurrentListObj] = useState([]);
   const [mergeList, setMergeList] = useState([]);
   const [moves, setMoves] = useState(0);
+  const [noDiff, setNoDiff] = useState(false);
 
   const [boardStyle, setBoardStyle] = useState({
     width: (props.boardSize * 80 + (props.boardSize - 1) * 5) + 'px',
@@ -104,7 +105,9 @@ export default function CompeteBoardEndless(props) {
         }
       }
 
-      if (isCorrect && moves !== 0) {
+      console.log(isCorrect, checkLst, toBeChecked, moves)
+      if ((isCorrect && moves !== 0) || (isCorrect && noDiff)) {
+        setNoDiff(false);
         if (indexToSolve === sortedLists.length - 1) {
           let boards = boardsSolved + 1;
           if (boards >= boardsToBeSolved.current.length) {
@@ -193,9 +196,11 @@ export default function CompeteBoardEndless(props) {
     } else {
       previousList = solvedBoard[solvedBoard.length - 1];
     }
+    setNoDiff(true);
     setCurrentListObj(mergeCurrMergeLsts(previousList));
     setMergeList(mergeLstIds(mergeCurrMergeLsts(previousList)));
     setCurrentList(sortedLists[indexToSolve]);
+    console.log(noDiff)
   }
 
   function formatSolvedBoard(lst, i) {

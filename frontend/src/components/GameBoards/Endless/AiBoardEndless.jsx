@@ -123,64 +123,12 @@ export default function AiBoardEndless(props) {
             updateBoard(boards);
           }
         } else {
+          setCurrentListObj(mergeCurrMergeLsts(sortedLists[indexToSolve]));
           setIndexToSolve(indexToSolve + 1);
         }
       }
     }
   }, [intervalIndex.current]);
-
-  useEffect(() => {
-    let checkLst = currentList;
-    let toBeChecked = [];
-    for (let i = 0; i < currentListObj.length; i++) {
-      toBeChecked.push(currentListObj[i].value);
-    }
-    if (toBeChecked.length !== 0) {
-      let isCorrect = true;
-      for (let i = 0; i < checkLst.length; i++) {
-        if (checkLst[i] !== toBeChecked[i]) {
-          isCorrect = false;
-          break;
-        }
-      }
-
-      if (isCorrect) {
-        if (indexToSolve === sortedLists.length - 1) {
-          let boards = boardsSolved + 1;
-          if (boards >= boardsToBeSolved.current.length) {
-            setDone(true);
-            setSolvedBoard([]);
-            setIndexToSolve(0);
-            setRandomList([]);
-            setSortedLists([]);
-            setCurrentList([]);
-            setCurrentListObj([]);
-            setMergeList([]);
-            props.changeScore(boards);
-            setBoardsSolved(boards);
-            props.changeBoard(boards);
-          } else {
-            setSolvedBoard([]);
-            setIndexToSolve(1);
-            setRandomList([]);
-            setSortedLists([]);
-            setCurrentList([]);
-            setCurrentListObj([]);
-            setMergeList([]);
-            props.changeScore(boards);
-            setBoardsSolved(boards);
-            props.changeBoard(boards);
-            updateBoard(boards);
-          }
-        } else {
-          setSolvedBoard([...solvedBoard, currentList]);
-          setCurrentList(sortedLists[indexToSolve + 1]);
-          setIndexToSolve(indexToSolve + 1);
-        }
-      }
-    }
-    setMergeList(mergeLstIds(currentListObj));
-  }, [currentListObj]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
