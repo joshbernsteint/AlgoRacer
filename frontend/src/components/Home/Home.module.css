@@ -2,12 +2,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
     height: 100vh;
-    padding: 20px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
 }
 
 .title {
-    font-size: 4rem;
+    font-size: 3rem;
     font-weight: 700;
     color: var(--color-main);
     margin-bottom: 20px;
@@ -16,5 +24,85 @@
 }
 
 .title:hover {
+    font-size: 4rem;
     color: var(--color-btn);
+    cursor: pointer;
+}
+
+.footer {
+    position: fixed;
+    max-height: 500px;
+    bottom: 0;
+    width: 100%;
+    color: var(--color-secondary);
+}
+
+.description {
+    display: flex;
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    max-width: 1000px;
+    color: var(--color-main);
+    margin-bottom: 20px;
+    transition: all 0.2s ease-in-out;
+}
+
+.links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.link {
+    background-color: var(--color-btn);
+    border: 1px solid var(--color-btn-border);
+    font-weight: 500;
+    border-radius: 5px;
+    margin: 0 10px;
+    padding: 5px;
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: var(--color-main);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease-in-out;
+}
+
+.link:hover {
+    background-color: var(--color-btn-dark);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.link:active {
+    background-color: var(--color-btn-dark-press);
+    box-shadow: 3px 3px 3px 0 rgba(0, 0, 0, .1);
+    transform: translateY(4px);
+}
+
+.gif_box {
+    background-color: var(--color-main);
+    color: var(--color-secondary);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, .1);
+    width: auto;
+    transition: all 1s ease-in-out;
+}
+
+.gif {
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 100%;
+    height: auto;
 }
