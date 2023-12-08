@@ -1,4 +1,4 @@
-# AlgoRacer
+# CS545: AlgoRacer
 A fun game to learn CS Algorithms!
 
 ## Backend
