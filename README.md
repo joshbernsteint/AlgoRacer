@@ -1,5 +1,6 @@
 # CS545: AlgoRacer
 A fun game to learn CS Algorithms!
+Hosted online [here](https://algoracer-backend-5bed1a87253c.herokuapp.com/)!
 
 ## Backend
 Contained here is relevant information for the backend of the application
